@@ -1,5 +1,8 @@
 .cover {
 	background-image: url("../../templates/images/1.jpg");
+	background-repeat: no-repeat;
+	width: 100%;
+	background-size: cover;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -12,6 +15,7 @@
 	align-items: center;
 	padding-left: 15vw;
 	padding-right: 15vw;
+	width: 100%;
 }
 
 .cover_text h5 {
@@ -34,16 +38,21 @@
 .img_text_block {
 	height: auto;
 	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background-color: #f6f6f7;
 }
 
 
 .section {
 	display: flex;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	flex-direction: row;
 	width: 100vw;
 	padding: 10vh 10vw;
+	/*background-color: #000000;*/
 }
 
 .img_section {
@@ -58,6 +67,7 @@
 }
 
 .text_section {
+	text-align: left;
 	flex: 2;
 }
 
@@ -73,11 +83,13 @@
 }
 
 .section_text_block div {
+	text-align: center;
 	width: 70vw;
 }
 
 .section_text_block div p{
 	margin-bottom: 0;
+	font-size: 1.7vw;
 }
 
 /*Блок с картинкой*/
@@ -107,4 +119,63 @@
 .text_section2 {
 	padding-top: 2vh;
 	text-align: center;
+	align-self: center;
+}
+
+/*видео с текстом*/
+
+.video_text_block {
+	display: flex;
+	width: 100vw;
+	height: auto;
+	position: relative;
+}
+
+.content {
+	position: absolute;
+	bottom: 1vh;
+	background: rgba(0, 0, 0, 0.5);
+	color: #f1f1f1;
+	width: 100%;
+	padding: 5vh 10vw;
+}
+
+.video_block {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	padding-top: 10vh;
+	padding-bottom: 10vh;
+}
+
+.video_block iframe {
+	width: 70vw !important;
+    height: auto;
+}
+
+/*.video_btn {
+	display: inline-block;
+	position: relative;
+	padding: 1.3vh 1.4vw;
+	padding-right: 6vw;
+	border-color: #fff;
+	background-color: initial;
+	color: #fff;
+}
+
+.video_btn::after {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding-top: inherit;
+	padding-bottom: inherit;
+	width: 4vw;
+	content: url("../../icons/play.svg");
+}*/
+
+
+.video_block video {
+    width: 100vw;
+    height: auto;
 }

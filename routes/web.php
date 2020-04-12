@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+// 	// Auth::logout();
+//     return view('welcome');
+// });
+
+Route::get('/', 'LongreadController@logout');
 
 Route::get('/we', function () {
     return view('home');
@@ -21,7 +24,7 @@ Route::get('/we', function () {
 
 
 Route::get('/templ', function () {
-    return view('image');
+    return view('/image');
 });
 
 Auth::routes();
@@ -31,4 +34,8 @@ Route::get('/longread', 'LongreadController@load');
 Route::get('/longread/{id}', 'LongreadController@loadLongread');
 Route::get('/longread/{id}/load', 'LongreadController@loadBlocks');
 Route::post('/longread/{id}/save', 'LongreadController@saveBlocks');
+Route::post('/longread/{id}/imageUpload', 'LongreadController@saveImage');
+
+// Route::get('/preview/{id}', 'LongreadController@loadPreview');
+// Route::get('/preview/{id}/load', 'LongreadController@loadBlocksPreview');
 // Route::get('/home', 'HomeController@index')->name('home');

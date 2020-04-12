@@ -13,13 +13,22 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-resource.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-sanitize.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/angular-route.min.js') }}"></script>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}">
-
+        
         <script type="text/javascript" src="{{ asset('js/edittingPageScript.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/edittingPageStyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/templates_css/templatesStyle.css') }}" />
+
+        <link rel="stylesheet" href="{{ asset('js/angularjs-color-picker/dist/angularjs-color-picker.min.css') }}" />
+        <script src="{{ asset('js/tinycolor2/dist/tinycolor-min.js') }}"></script>
+        <script src="{{ asset('js/angularjs-color-picker/dist/angularjs-color-picker.min.js') }}"></script>
+
+        <!-- <link rel="stylesheet" href="{{ asset('js/angular-video-background/dist/angular-video-background.min.css') }}" />
+        <script src="{{ asset('js/angular-video-background/dist/angular-video-background.min.js') }}"></script> -->
+
 
     </head>
     <body ng-controller="TemplController">
@@ -64,24 +73,30 @@
                             <div class="form-group" id = "2" ng-if="templatesStyle['align_items']">
                                 <label>Выравнивание</label></br>
                                 <select ng-model="style[curEdittingBlock].align_items">
-                                  <option ng-repeat="x in alignment" value="@{{x}}" >@{{x}}</option>
+                                  <option ng-repeat="x in alignment" value="@{{x.en}}" >@{{x.ru}}</option>
                                 </select>
                             </div>
                             <div class="form-group" id = "3" ng-if="templatesStyle['text_align']">
                                 <label>Выравнивание</label></br>
                                 <select ng-model="style[curEdittingBlock].text_align">
-                                  <option ng-repeat="x in alignment" value="@{{x}}" >@{{x}}</option>
+                                  <option ng-repeat="x in text_alignment" value="@{{x.en}}" >@{{x.ru}}</option>
                                 </select>
                             </div>
                             <div class="form-group" id = "4" ng-if="templatesStyle['justify_content']">
                                 <label>Вертикальное выравнивание</label></br>
                                 <select ng-model="style[curEdittingBlock].justify_content">
-                                  <option ng-repeat="x in vertical_alignment" value="@{{x}}" >@{{x}}</option>
+                                  <option ng-repeat="x in vertical_alignment" value="@{{x.en}}" >@{{x.ru}}</option>
                                 </select>
                             </div>
                             <div class="form-group" id = "5" ng-if="templatesStyle['height']">
                                 <label>Высота блока</label></br>
                                 <input type="text" name="height_block" ng-model="style[curEdittingBlock].height" size="7" placeholder="100vh" value="100vh">
+                            </div>
+                            <div class="form-group" id = "18" ng-if="templatesStyle['direction']">
+                                <label>Расположение</label></br>
+                                <select ng-model="style[curEdittingBlock].direction">
+                                  <option ng-repeat="x in direction" value="@{{x.en}}" >@{{x.ru}}</option>
+                                </select>
                             </div>
                             <div>
                                 <label class="subtitle_styleSection">Типографика</label>
@@ -89,11 +104,11 @@
                                     <div ng-if="templatesStyle['title']">
                                         <div class="form-group" id = "6">
                                             <label>Заголовок: Цвет</label></br>
-                                            <input type="text" name="title_color" size="7" placeholder="#000000" ng-model="style[curEdittingBlock].title.color">
+                                            <color-picker ng-model="style[curEdittingBlock].title.color"></color-picker>
                                         </div>
                                         <div class="form-group" id = "7">
                                             <label>Заголовок: Размер шрифта</label></br>
-                                            <input type="text" name="title_fontsize" size="7" placeholder="14pt" ng-model="style[curEdittingBlock].title.font_size">
+                                            <input type="text" name="title_fontsize" size="7" placeholder="1.7vw" ng-model="style[curEdittingBlock].title.font_size">
                                         </div>
                                         <div class="form-group" id = "8">
                                             <label>Заголовок: Шрифт</label></br>
@@ -103,18 +118,18 @@
                                         </div>
                                     </div>
 
-                                    <div ng-if="templatesStyle['uptitle']">
+                                    <div ng-if="templatesStyle['overhead']">
                                         <div class="form-group" id = "9">
                                             <label>Надзаголовок: Цвет</label></br>
-                                            <input type="text" name="uptitle_color" size="7" placeholder="#000000" ng-model="style[curEdittingBlock].uptitle.color">
+                                            <color-picker ng-model="style[curEdittingBlock].overhead.color"></color-picker>
                                         </div>
                                         <div class="form-group" id = "10">
                                             <label>Надзаголовок: Размер шрифта</label></br>
-                                            <input type="text" name="uptitle_fontsize" size="7" placeholder="14pt" ng-model="style[curEdittingBlock].uptitle.font_size">
+                                            <input type="text" name="overhead_fontsize" size="7" placeholder="1.7vw" ng-model="style[curEdittingBlock].overhead.font_size">
                                         </div>
                                         <div class="form-group" id = "11">
                                             <label>Надзаголовок: Шрифт</label></br>
-                                            <select ng-model="style[curEdittingBlock].uptitle.font_family">
+                                            <select ng-model="style[curEdittingBlock].overhead.font_family">
                                               <option ng-repeat="x in font_family" value="@{{x}}" >@{{x}}</option>
                                             </select>
                                         </div>
@@ -123,11 +138,11 @@
                                     <div ng-if="templatesStyle['subtitle']">
                                         <div class="form-group" id = "12">
                                             <label>Подзаголовок: Цвет</label></br>
-                                            <input type="text" name="subtitle_color" size="7" placeholder="#000000" ng-model="style[curEdittingBlock].subtitle.color">
+                                            <color-picker ng-model="style[curEdittingBlock].subtitle.color"></color-picker>
                                         </div>
                                         <div class="form-group" id = "13">
                                             <label>Подзаголовок: Размер шрифта</label></br>
-                                            <input type="text" name="subtitle_fontsize" size="7" placeholder="14pt" ng-model="style[curEdittingBlock].subtitle.fontsize">
+                                            <input type="text" name="subtitle_font_size" size="7" placeholder="1.7vw" ng-model="style[curEdittingBlock].subtitle.font_size">
                                         </div>
                                         <div class="form-group" id = "14">
                                             <label>Подзаголовок: Шрифт</label></br>
@@ -140,11 +155,11 @@
                                     <div ng-if="templatesStyle['main_text']">
                                         <div class="form-group" id = "15">
                                             <label>Основной текст: Цвет</label></br>
-                                            <input type="text" name="main_text_color" size="7" placeholder="#000000" ng-model="style[curEdittingBlock].main_text.color">
+                                            <color-picker ng-model="style[curEdittingBlock].main_text.color"></color-picker>
                                         </div>
                                         <div class="form-group" id = "16">
                                             <label>Основной текст: Размер шрифта</label></br>
-                                            <input type="text" name="main_text_fontsize" size="7" placeholder="14pt" ng-model="style[curEdittingBlock].main_text.font_size">
+                                            <input type="text" name="main_text_fontsize" size="7" placeholder="1.7vw" ng-model="style[curEdittingBlock].main_text.font_size">
                                         </div>
                                         <div class="form-group" id = "17">
                                             <label>Основной текст: Шрифт</label></br>
@@ -155,12 +170,86 @@
                                     </div>
                                 </div>
                             </div>
-                            <div><button>Сохранить</button></div>
-                            <!-- @{{ style | json }} -->
+                            <!-- <div><button>Сохранить</button></div>
+                            @{{ style | json }} -->
                         </form>
                     </div>
                 </div>
                 <div class="contentSection"></div>
+            </div>
+
+            <div class="menu" ng-class = "{menu_active: statusContentSection}" ng-style="{ 'width': '50%'}">
+                <div class="contentSection">
+                    <div class="block1" id = "1">
+                        <div class="menu-header">
+                            <div class="menu-header-title"><h5>Контент</h5></div>
+                            <div class="menu-btn" ng-click="closeContentSection()" ng-style="{ 'width': '4%'}"><img src="{{ asset('icons/close.svg') }}"></div>
+                        </div>
+                        <div class="form_style">
+                            <div class="form-group" id = "23" ng-if="templatesContent['img']">
+                                <label>Изображение</label></br>
+                                <div>
+                                    <div>
+                                        <button ng-click="loadImage()">Загрузить изображение</button>
+                                        <div ng-if="loadImg" class="loadImg">
+                                            <form enctype="multipart/form-data" method="post" class="inputfile">
+                                                {{ csrf_field() }}
+                                                <input type="file" id="file"  ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                <label for="file" class="btn-1"><span>Выбрать файл</span></label>
+                                            </form> 
+                                        </div>
+                                        <div ng-repeat="curImg in images[curEdittingBlock] track by $index" class="curImgs">
+                                            <div class="curImg">
+                                                <div class="curImg_img"><img ng-src="@{{ curImg.src  }}"></div>
+                                                <div class="curImg_text"><p>@{{ curImg.name }}</p></div>
+                                                <div class="curImg_btn" ng-click="deleteImg($index)"><img src="{{ asset('icons/garbage.svg') }}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id = "23" ng-if="templatesContent['video']">
+                                <label>Видео</label></br>
+                                <div>
+                                    <div>
+                                        <div class="URLvideo">
+                                            <label>Ссылка на YouTube ролик</label></br>
+                                            <input type="text" name="" ng-model="videos[curEdittingBlock][0].src" ng-style="{'width': '90%'}">
+                                        </div>
+                                        <!-- <div ng-repeat="curVideo in videos[curEdittingBlock] track by $index" class="curImgs"> -->
+                                            <div class="curImgs">
+                                                <div class="curImg">
+                                                    <div class="curImg_img">
+                                                        <iframe frameborder="0" ng-src="@{{ videos[curEdittingBlock][0].src.split('watch?v=')[0] + 'embed/' + videos[curEdittingBlock][0].src.split('watch?v=')[1].split('&')[0] + '?autoplay=0&controls=0&showinfo&modestbranding=1$rel=0'| trustUrl }}" ></iframe>
+                                                    </div>
+                                                    <div class="curImg_text"><p>@{{ videos[curEdittingBlock][0].name }}</p></div>
+                                                    <!-- <div class="curImg_btn" ng-click="deleteVideo($index)"><img src="{{ asset('icons/garbage.svg') }}"></div> -->
+                                                </div>
+                                            </div>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id = "19" ng-if="templatesContent['title']">
+                                <label>Заголовок</label></br>
+                                <input class="inputContent" type="text" name="title" ng-model="mainText[curEdittingBlock].title">
+                            </div>
+                            <div class="form-group" id = "20" ng-if="templatesContent['overhead']">
+                                <label>Надзаголовок</label></br>
+                                <input class="inputContent" type="text" name="overhead" ng-model="mainText[curEdittingBlock].overhead">
+                            </div>
+                            <div class="form-group" id = "21" ng-if="templatesContent['subtitle']">
+                                <label>Подзаголовок</label></br>
+                                <input class="inputContent" type="text" name="subtitle" ng-model="mainText[curEdittingBlock].subtitle">
+                            </div>
+                            
+                            <div class="form-group" id = "22" ng-if="templatesContent['text']">
+                                <label>Основной текст</label></br>
+                                <textarea class="inputContent" ng-model="mainText[curEdittingBlock].text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             
@@ -174,7 +263,7 @@
                     <div class="block">
                         <div class="editButtom">
                             <div class="editStyle" ng-click="openStyleSection($index)">Оформление</div>
-                            <div class="editContent">Контент</div>
+                            <div class="editContent" ng-click="openContentSection($index)">Контент</div>
                             <div class="moreOption"><img src="{{ asset('icons/dot.svg') }}">
                                 <div class="option">
                                     <div class="option-list">
@@ -198,7 +287,8 @@
                     </div>
                 </div>
                 <div class="library"><button ng-click="openLibrary()">Добавить блок</button></div>
-            </div>
+            </div><!-- 
+            @{{ $first }} -->
         </div>
     </body>
 </html>

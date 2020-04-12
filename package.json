@@ -23,6 +23,8 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
-        "angular": "^1.7.9"
+        "angular": "^1.7.9",
+        "angular-video-background": "^1.0.3",
+        "angularjs-color-picker": "^3.4.8"
     }
 }

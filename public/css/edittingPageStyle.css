@@ -87,7 +87,7 @@ body {
 }
 
 .menu-btn {
-	width: 6%;
+	width: 6% !important;
 	height: auto;
 	position: absolute;
 	right: 1vw;
@@ -110,6 +110,7 @@ body {
 }
 
 .editButtom {
+	z-index: 9998;
 	display: none;
 	top: 0;
 	right: 0;
@@ -226,9 +227,136 @@ body {
 }
 
 
+.contentSection {
+	overflow-y: auto;
+}
+
+.inputContent {
+	width: 90%;
+}
+
+.contentSection textarea {
+	height: 30vh !important;
+}
+
+.loadImg {
+	margin-top: 2vh;
+}
+
+.curImgs {
+	display: flex;
+	margin-right: 5vw;
+	margin-top: 5vh; 
+}
+
+.curImg {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.curImg_img {
+	width: 30%;
+}
+
+.curImg_img img{
+	display: inline-block;
+	width: 100%;
+}
+
+.curVideo{
+	display: inline-block;
+	width: 100%;
+}
+
+.curImg_text {
+	word-wrap: break-word;
+	width: 55%;
+	padding-left: 2vw;
+}
+
+.curImg_text p {/*
+	width: 90%;*/
+	font-size: 1vw;
+	margin-bottom: 0 !important;
+}
+
+.curImg_btn {
+	margin-left: auto;
+  	margin-right: 0;
+	width: 4% !important;
+	cursor: pointer;
+}
+
+.curImg_btn img {
+	display: inline-block;
+	width: 100%;
+}
+
+
+/*Форма загрузки файла*/
+
+.inputfile input{
+	height: 0;
+    overflow: hidden;
+    width: 0;
+    margin: 0;
+}
+
+.btn-1 {
+  background: #4F8FC0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  padding: 1vh 2vw;
+  position: relative;
+  transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif !important;
+  overflow: hidden;
+}
+
+.btn-1 {
+    background-color: #4F8FC0;
+    border-radius: 0 !important;
+}
+    
+.btn-1 span {
+    display: inline-block;
+    height: 100%;
+    transition: all 0.3s;
+    width: 100%;
+}
+    
+.btn-1::before {
+    content: url("../icons/download.svg");
+    height: 100%;
+    position: absolute;
+    top: -180%;
+    transition: all 0.3s;
+    width: 25%;
+    right: 0;
+    margin-right: 35%;
+}
+
+.btn-1:hover {
+    background-color: #2776a8 !important;
+}
+      
+.btn-1:hover span {
+    transform: translateY(300%);
+}
+        
+.btn-1:hover::before {
+    top: 0;
+}
+
+
+
 
 
 p, h1, h2, h3, h4, h5, h6[contentEditable] {
   cursor: pointer;
   /*padding: 1em;*/
 }
+

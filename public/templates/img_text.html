@@ -1,9 +1,16 @@
-	<div class="container-fluid img_text_Block">
-		<div class="section">
-			<div class ="img_section"><img src="../../templates/images/1.jpg"></div>
-			<div class="text_section">
-				<div><h3 contentEditable ng-model="mainText[$index].title"></h3></div>
-				<div><p contentEditable ng-model="mainText[$index].text"></p></div>
+	<div class="container-fluid img_text_block">
+		<div class="section" ng-style="{ 'width': style[$index].width + 'vw', 'flex-direction': style[$index].direction }">
+
+			<div class ="img_section" ng-style="{ 'padding-right': style[$index].direction == 'row' ? '5vw' : '0vw', 'padding-left': style[$index].direction == 'row-reverse' ? '5vw' : '0vw' }"><img ng-src="{{ images[$index][0].src }}"></div>
+
+			<div class="text_section" ng-style="{ 'text-align': style[$index].text_align }">
+				<div><h3 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,
+			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h3></div>
+				<div><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p></div>
 			</div>
 		</div>
 	</div>
+
+
+	

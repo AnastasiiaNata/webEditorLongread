@@ -69,6 +69,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/longread') }}">Home</a>
+                        <a href="{{ url('/') }}">Logout</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
