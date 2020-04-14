@@ -26,8 +26,8 @@
         <script src="{{ asset('js/tinycolor2/dist/tinycolor-min.js') }}"></script>
         <script src="{{ asset('js/angularjs-color-picker/dist/angularjs-color-picker.min.js') }}"></script>
 
-        <!-- <link rel="stylesheet" href="{{ asset('js/angular-video-background/dist/angular-video-background.min.css') }}" />
-        <script src="{{ asset('js/angular-video-background/dist/angular-video-background.min.js') }}"></script> -->
+        <link rel="stylesheet" href="{{ asset('js/angular-video-background/dist/angular-video-background.min.css') }}" />
+        <script src="{{ asset('js/angular-video-background/dist/angular-video-background.min.js') }}"></script>
 
 
     </head>

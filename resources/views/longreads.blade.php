@@ -19,23 +19,45 @@
     </head>
     <body>
         <div class="header">
-            
+            <div><h2>ВЫЙТИ</h2></div>
         </div>
         <div class="main">
-            <h5>Ваши лонгриды</h5>
+            <div class="titleSection">
+                <h5>Ваши лонгриды</h5>
+                <div><button class="addBTN"><img src="{{ asset('icons/add.svg') }}">НОВЫЙ ЛОНГРИД</button></div>
+            </div>
+            
             <div class="list">
                 <!-- <div ng-repeat="curLongread in longreads track by $index"> -->
                     <!-- <a href="longread/@{{ curLongread.id }}">@{{ curLongread.title }}</a> -->
-                    @foreach ($data as $longread)
-                        <div class="longread">
-                            <div class="title"><a href="longread/{{ $longread->id }}">{{ $longread->title }}</a></div>
-                            <div class="editBTN">
-                                <div><a href = 'longread/{{ $longread->id }}'><img src="{{ asset('icons/edit.svg') }}">Редактировать</a></div>
-                                <!-- <div><a href = 'delete/{{ $longread->id }}'><img src="{{ asset('icons/garbage.svg') }}"></a></div> -->
-                                <div><a href = 'settings/{{ $longread->id }}'><img src="{{ asset('icons/settings.svg') }}"></a></div>
+                    
+                        @foreach ($data as $longread)
+                        <div class="longread-wrapper">
+                            <div class="longread">
+                                <!-- <div class="img_block"><img src="{{ asset('templates/images/1.jpg') }}"></div> -->
+                                <div class="title"><a href="longread/{{ $longread->id }}">{{ $longread->title }}</a></div>
+                                <div class="editBTN">
+                                    <div><a href = 'longread/{{ $longread->id }}'><img src="{{ asset('icons/edit.svg') }}">Редактировать</a></div>
+                                    <!-- <div><a href = 'delete/{{ $longread->id }}'><img src="{{ asset('icons/garbage.svg') }}"></a></div> -->
+                                    <div><a href = 'settings/{{ $longread->id }}'><img src="{{ asset('icons/settings.svg') }}"></a></div>
+                                </div>
                             </div>
                         </div>
-                    @endforeach 
+                        
+                        @endforeach 
+                        <div class="longread-wrapper">
+                            <div class="longread"></div>
+                        </div>
+                        <div class="longread-wrapper">
+                            <div class="longread"></div>
+                        </div>
+                        <div class="longread-wrapper">
+                            <div class="longread"></div>
+                        </div>
+                        <div class="longread-wrapper">
+                            <div class="longread"></div>
+                        </div>
+
                 <!-- </div> -->
             </div>
         </div>
