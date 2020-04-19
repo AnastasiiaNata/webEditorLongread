@@ -1,4 +1,4 @@
-var webEditor = angular.module("webEditor", ['ngResource', 'ngRoute', 'ngSanitize', 'color.picker', 'video-background']);
+var webEditor = angular.module("webEditor", ['ngResource', 'ngRoute', 'ngSanitize', 'color.picker', 'video-background', 'ngAnimate']);
 
 
 webEditor.factory('WebEditorRepository', ['$resource', 
@@ -20,10 +20,12 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
   $scope.oldImg = [];
   $scope.deleteImgServer = [];
   $scope.videos = [];
+  $scope.editPage = true;
 
   $scope.init = function(longreadId){
     WebEditorRepository.load({id: longreadId}, function(response) {
       $scope.curTempls = response[0];
+      console.log($scope.curTempls);
       if (Object.keys($scope.curTempls).length > 0) {
         $scope.statusButtom = true;
       }
@@ -160,7 +162,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
 
   $scope.saveTemples = function(longreadId){
-    console.log($scope.deleteImgServer);
+    // console.log($scope.deleteImgServer);
     for (var i = 0; i < Object.keys($scope.curTempls).length; i++){
       $scope.curTempls[i]["content"] = (typeof $scope.curTempls[i]["content"] === "string") ? JSON.parse($scope.curTempls[i]["content"]):$scope.curTempls[i]["content"];
       $scope.curTempls[i]["styles"] = (typeof $scope.curTempls[i]["styles"] === "string") ? JSON.parse($scope.curTempls[i]["styles"]):$scope.curTempls[i]["styles"];
@@ -171,9 +173,9 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       if (Object.keys($scope.images[i]).length != 0) {
         for (let j = 0; j < Object.keys($scope.images[i]).length; j++){
           $scope.curTempls[i]["content"]["img"][j] = $scope.images[i][j];
-          console.log($scope.images[i][j]);
+          // console.log($scope.images[i][j]);
           if ($scope.images[i][j].src.includes("/storage/")) {
-            console.log($scope.oldImg[i]);
+            // console.log($scope.oldImg[i]);
             $scope.oldImg[i].splice(j, 1);
           }
         }
@@ -388,7 +390,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
     }
     if (typeof data['img'] !== "undefined" && data['img'].length > 0 ) {
-      console.log(data['img'].length);
       $scope.templatesContent['img'] = true;
     }
     
@@ -414,14 +415,14 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
   }
 
 
-  $scope.getTheFiles = function ($files) {
+  $scope.getTheFiles = function($files) {
     imagesrc = [];
     
     for (var i = 0; i < $files.length; i++) {
       var reader = new FileReader();
       reader.fileName = $files[i].name; // Наименование загруженного файла
 
-      reader.onload = function (event) {
+      reader.onload = function(event) {
         var image = {};
         image.name = event.target.fileName;
         image.size = (event.total / 1024).toFixed(2);
@@ -433,15 +434,85 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
     }
     
-    // for (let i = 0; i < $scope.images[$scope.curEdittingBlock].length; i++){
-    //   pathOld = "/public/" + $scope.images[$scope.curEdittingBlock][i]["src"].split("/")[2] + "/" + $scope.images[$scope.curEdittingBlock][i]["src"].split("/")[3];
-    //   $scope.oldImg[$scope.curEdittingBlock][i] = pathOld;
-    // }
-    $scope.images[$scope.curEdittingBlock] = imagesrc;
+    
+    // console.log($scope.images[$scope.curEdittingBlock]);
+    // console.log(Object.keys($scope.images[$scope.curEdittingBlock]).length);
+    if (Object.keys($scope.images[$scope.curEdittingBlock]).length == 1){
+      $scope.images[$scope.curEdittingBlock] = imagesrc;
+    }
+    else {
+      
+      // console.log(imagesrc.length);
+      for(let i = 0; i < imagesrc.length; i++){
+
+      }
+      // $scope.images[$scope.curEdittingBlock].push(imagesrc);
+    }
+    // console.log($scope.images[$scope.curEdittingBlock]);
     
   }
+
+
+
+
+
   
 
+  $scope.currentSlide = 0;
+  
+  $scope.setCurrentSlideIndex = function(index) {
+    $scope.currentSlide = index;
+  };
+  
+  $scope.isCurrentSlideIndex = function(index) {
+    return $scope.currentSlide === index;
+  };
+
+
+  $scope.prevSlide = function($index) {
+    console.log("prev");
+    console.log($scope.currentSlide);
+    $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
+    console.log($scope.currentSlide);
+    console.log(Object.keys($scope.images[$index]));
+  };
+
+  $scope.nextSlide = function($index) {
+    console.log("next");
+    console.log($scope.currentSlide);
+    $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
+    console.log($scope.currentSlide);
+    console.log(Object.keys($scope.images[$index]).length);
+  };
+
+
+
+  
+
+});
+
+
+webEditor.animation('.slide-animation', function () {
+  return {
+    addClass: function (element, className, done) {
+      if (className == 'ng-hide') {
+        TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
+      }
+      else {
+        done();
+      }
+    },
+    removeClass: function (element, className, done) {
+      if (className == 'ng-hide') {
+        element.removeClass('ng-hide');
+        TweenMax.set(element, { left: element.parent().width() });
+        TweenMax.to(element, 0.5, {left: 0, onComplete: done });
+      }
+      else {
+        done();
+      }
+    }
+  };
 });
 
 
@@ -458,36 +529,31 @@ webEditor.config(function($provide) {
 
 
 
-webEditor.directive('contenteditable', ['$sce', function($sce) {
+webEditor.directive('contenteditable', ['$sce', function($sce) { //$sce: удаляет потенциально опасные элементы и атрибуты из кода html
   return {
-    restrict: 'A', // only activate on element attribute
-    require: '?ngModel', // get a hold of NgModelController
-    link: function(scope, element, attrs, ngModel) {
-      if (!ngModel) return; // do nothing if no ng-model
+    require: '?ngModel', // получить NgModelController
+    link: function(scope, element, attrs, ngModel) { // Функция, используемая для задач манипулирования DOM
+      if (!ngModel) return; // ничего не делать, если нет ng-model
 
-      // Specify how UI should be updated
+      // Как пользовательский интерфейс должен быть обновлен
       ngModel.$render = function() {
         element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
       };
 
-      // Listen for change events to enable binding
+      // Прослушивание события изменения, чтобы включить привязку
       element.on('blur keyup change', function() {
         scope.$evalAsync(read);
       });
-      // read(); // initialize
-
 
       ngModel.$modelValue = scope.$eval(attrs.ngModel);
       ngModel.$setViewValue(ngModel.$modelValue);
       ngModel.$render();
 
-
-
-      // Write data to the model
+      // Записать данные в модель
       function read() {
         var html = element.html();
-        // When we clear the content editable the browser leaves a <br> behind
-        // If strip-br attribute is provided then we strip this out
+        // Когда мы очищаем редактируемый контент, браузер оставляет позади <br> 
+        // Если указан атрибут strip-br, то мы удаляем
         if ( attrs.stripBr && html == '<br>' ) {
           html = '';
         }
@@ -506,7 +572,6 @@ webEditor.directive('ngFiles', ['$parse', function ($parse) {
       onChange(scope, { $files: event.target.files });
     });
   }
-
   return {
     link: fn_link
   }
@@ -545,4 +610,6 @@ webEditor.directive('resize', function ($window) {
             scope.$apply();
         });
     }
-})
+});
+
+

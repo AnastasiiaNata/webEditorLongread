@@ -14,6 +14,8 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular-resource.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-sanitize.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-route.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/angular-animate.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/TweenMax.min.js') }}"></script>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}">
@@ -33,14 +35,14 @@
     </head>
     <body ng-controller="TemplController">
         <div class="header">
-            <nav class="navbar navbar-expand">
-                <div class="collapse-right navbar-collapse">
-                    <ul class="navbar-nav mr-4">
-                        <li class="nav-item"><button class="btn button mr-5" ng-click="saveTemples({{$longreadId}})">Сохранить</button></li>
-                        <li class="nav-item"><button id="butView" class="btn button mr-5">Предпросмотр</button></li>
-                    </ul>
-                </div>
-            </nav>
+            <div class="leftBTN">
+                <div><a href="/longread">Мои лонгриды</a></div>
+            </div>
+            <div class="buttons">
+
+                <div class="previewBTN"><a href="{{$longreadId}}/preview" ng-click="saveTemples({{$longreadId}})" id="butView" >Предпросмотр</a></div>
+                <div class="saveBTN"><a href="#" ng-click="saveTemples({{$longreadId}})">Сохранить</a></div>
+            </div>
         </div>
 
         <div class="wrapper">
@@ -70,6 +72,12 @@
                                   <option ng-repeat="x in block_width" value="@{{x}}" >@{{x}}</option>
                                 </select>
                             </div>
+                            <div class="form-group" id = "5" ng-if="templatesStyle['height']">
+                                <label>Высота блока</label></br>
+                                <select ng-model="style[curEdittingBlock].height">
+                                  <option ng-repeat="x in block_width" value="@{{x}}" >@{{x}}</option>
+                                </select>
+                            </div>
                             <div class="form-group" id = "2" ng-if="templatesStyle['align_items']">
                                 <label>Выравнивание</label></br>
                                 <select ng-model="style[curEdittingBlock].align_items">
@@ -88,10 +96,7 @@
                                   <option ng-repeat="x in vertical_alignment" value="@{{x.en}}" >@{{x.ru}}</option>
                                 </select>
                             </div>
-                            <div class="form-group" id = "5" ng-if="templatesStyle['height']">
-                                <label>Высота блока</label></br>
-                                <input type="text" name="height_block" ng-model="style[curEdittingBlock].height" size="7" placeholder="100vh" value="100vh">
-                            </div>
+                            
                             <div class="form-group" id = "18" ng-if="templatesStyle['direction']">
                                 <label>Расположение</label></br>
                                 <select ng-model="style[curEdittingBlock].direction">
@@ -190,14 +195,16 @@
                                 <label>Изображение</label></br>
                                 <div>
                                     <div>
-                                        <button ng-click="loadImage()">Загрузить изображение</button>
-                                        <div ng-if="loadImg" class="loadImg">
-                                            <form enctype="multipart/form-data" method="post" class="inputfile">
-                                                {{ csrf_field() }}
-                                                <input type="file" id="file"  ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
-                                                <label for="file" class="btn-1"><span>Выбрать файл</span></label>
-                                            </form> 
-                                        </div>
+                                        <!-- <div ng-if="isOneImage"> -->
+                                            <button class="loadBTN" ng-click="loadImage()">Загрузить изображение</button>
+                                            <div ng-if="loadImg" class="loadImg">
+                                                <form enctype="multipart/form-data" method="post" class="inputfile">
+                                                    {{ csrf_field() }}
+                                                    <input type="file" id="file"  ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                    <label for="file" class="btn-1"><span>Выбрать файл</span></label>
+                                                </form> 
+                                            </div>
+                                        <!-- </div> -->
                                         <div ng-repeat="curImg in images[curEdittingBlock] track by $index" class="curImgs">
                                             <div class="curImg">
                                                 <div class="curImg_img"><img ng-src="@{{ curImg.src  }}"></div>
@@ -216,17 +223,14 @@
                                             <label>Ссылка на YouTube ролик</label></br>
                                             <input type="text" name="" ng-model="videos[curEdittingBlock][0].src" ng-style="{'width': '90%'}">
                                         </div>
-                                        <!-- <div ng-repeat="curVideo in videos[curEdittingBlock] track by $index" class="curImgs"> -->
                                             <div class="curImgs">
                                                 <div class="curImg">
                                                     <div class="curImg_img">
-                                                        <iframe frameborder="0" ng-src="@{{ videos[curEdittingBlock][0].src.split('watch?v=')[0] + 'embed/' + videos[curEdittingBlock][0].src.split('watch?v=')[1].split('&')[0] + '?autoplay=0&controls=0&showinfo&modestbranding=1$rel=0'| trustUrl }}" ></iframe>
+                                                        <iframe frameborder="0" ng-src="@{{ videos[curEdittingBlock][0].src.split('watch?v=')[0] + 'embed/' + videos[curEdittingBlock][0].src.split('watch?v=')[1].split('&')[0] + '?autoplay=0&controls=0&showinfo=0&modestbranding=1$rel=0'| trustUrl }}" ></iframe>
                                                     </div>
                                                     <div class="curImg_text"><p>@{{ videos[curEdittingBlock][0].name }}</p></div>
-                                                    <!-- <div class="curImg_btn" ng-click="deleteVideo($index)"><img src="{{ asset('icons/garbage.svg') }}"></div> -->
                                                 </div>
                                             </div>
-                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>

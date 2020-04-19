@@ -1,10 +1,19 @@
 	<div class="container-fluid cover" ng-style="{ 'height': style[$index].height + 'vh', 'background-image': 'url(' + images[$index][0].src + ')' }">
-		<div class="cover_text" ng-style="{ 'justify-content': style[$index].justify_content, 'align-items': style[$index].align_items }">
-			<div><h5 contentEditable ng-model="mainText[$index].overhead" ng-style="{ 'color':'#' + style[$index].overhead.color,
+		<div ng-if="editPage" class="cover_text" ng-style="{ 'justify-content': style[$index].justify_content, 'align-items': style[$index].align_items }">
+			<div><h5 contentEditable strip-br ng-model="mainText[$index].overhead" ng-style="{ 'color':'#' + style[$index].overhead.color,
 			'font-family': style[$index].overhead.font_family, 'font-size': style[$index].overhead.font_size + 'vw' }"></h5></div>
-			<div><h2 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' +style[$index].title.color,
+			<div><h2 contentEditable strip-br ng-model="mainText[$index].title" ng-style="{ 'color': '#' +style[$index].title.color,
 			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h2></div>
-			<div><h6 contentEditable ng-model="mainText[$index].subtitle" ng-style="{ 'color':'#' + style[$index].subtitle.color,
+			<div><h6 contentEditable strip-br ng-model="mainText[$index].subtitle" ng-style="{ 'color':'#' + style[$index].subtitle.color,
+			'font-family': style[$index].subtitle.font_family, 'font-size': style[$index].subtitle.font_size + 'vw' }"></h6></div>
+		</div>
+
+		<div ng-if="!editPage" class="cover_text" ng-style="{ 'justify-content': style[$index].justify_content, 'align-items': style[$index].align_items }">
+			<div><h5  ng-model="mainText[$index].overhead" ng-style="{ 'color':'#' + style[$index].overhead.color,
+			'font-family': style[$index].overhead.font_family, 'font-size': style[$index].overhead.font_size + 'vw' }"></h5></div>
+			<div><h2  ng-model="mainText[$index].title" ng-style="{ 'color': '#' +style[$index].title.color,
+			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h2></div>
+			<div><h6  ng-model="mainText[$index].subtitle" ng-style="{ 'color':'#' + style[$index].subtitle.color,
 			'font-family': style[$index].subtitle.font_family, 'font-size': style[$index].subtitle.font_size + 'vw' }"></h6></div>
 		</div>
 	</div>

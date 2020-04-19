@@ -3,10 +3,17 @@
  		<iframe resize ng-style="{ 'width':windowWidth, 'height': windowHeight }" ng-src="{{ videos[$index][0].src.split('watch?v=')[0] + 'embed/' + videos[$index][0].src.split('watch?v=')[1].split('&')[0] + '?loop=1&autoplay=1&controls=0&rel=0'| trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
  	</div>
-	<div class="content" ng-style="{ 'text-align': style[$index].text_align}">
+	<div ng-if="editPage" class="content" ng-style="{ 'text-align': style[$index].text_align}">
 		<h1 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,
 			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h1>
 		 <p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p>
+	</div>
+
+	<div ng-if="!editPage" class="content" ng-style="{ 'text-align': style[$index].text_align}">
+		<h1  ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,
+			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h1>
+		 <p  ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
 			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p>
 	</div>
 

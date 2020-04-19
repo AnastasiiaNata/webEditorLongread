@@ -20,12 +20,12 @@ class LongreadController extends Controller
 		return view('welcome');
 	}
 
-	public function load(Request $request){
-		$user = Auth::user();
-		$data = $user->longreads;
-		// dd($data);
-		return view('longreads', compact('data'));
-	}
+	// public function load(Request $request){
+	// 	$user = Auth::user();
+	// 	$data = $user->longreads;
+	// 	// dd($data);
+	// 	return view('longreads', compact('data'));
+	// }
 
 	public function loadLongread($id){
 		$longreadId = $id;
@@ -53,12 +53,10 @@ class LongreadController extends Controller
 		$oldImg = $requestData[1];
 		$deleteImg = $requestData[2];
 
-
 		for ($i = 0; $i < count($oldImg); $i++){
 			for ($j = 0; $j < count($oldImg[$i]); $j++){
 				Storage::delete($oldImg[$i][$j]);
-			}
-					
+			}			
 		}
 		
 
@@ -70,11 +68,9 @@ class LongreadController extends Controller
 		
 		for ($i = 0; $i < count($blocks); $i++){
 			for ($j = 0; $j < count($blocks[$i]["content"]["img"]); $j++){
-				// $c = $blocks[$i]["content"]["img"][$j]["src"];
 				if (substr_count($blocks[$i]["content"]["img"][$j]["src"], '/storage/') == 0) {
 					if (substr_count($blocks[$i]["content"]["img"][$j]["src"], '../..') == 0) {
 						$cou = explode(',', explode(';', $blocks[$i]["content"]["img"][$j]["src"])[1])[1];
-						// $p = explode('/', explode(':', explode(';', $blocks[$i]["content"]["img"][$j]["src"])[0])[1])[1];
 						$search = [':', '-', ' '];
 						$file = base64_decode($cou);
 
@@ -122,16 +118,4 @@ class LongreadController extends Controller
 		return view('preview', compact('longreadId'));
 	}
 
-	public function loadBlocksPreview($id){
-		$longread = BlockList::where('longread_id', '=', $id)->get();
-		for ($i = 0; $i < count($longread); $i++){
-			$fileName = Block::where('id', '=', $longread[$i]['block_id'])->get()[0]['fileName'];
-			$longread[$i]['fileName'] = $fileName;
-		} 
-		$blocks = Block::all();
-		$data = [];
-		$data[0] = $longread;
-		$data[1] = $blocks;
-		return $data;
-	}
 }

@@ -1,6 +1,9 @@
 <div class="img_text_Block">
 	<div class="section_text_block">
-		<div ng-style="{ 'width': style[$index].width + 'vw', 'text-align': style[$index].text_align }"><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
+		<div ng-if="editPage" ng-style="{ 'width': style[$index].width + 'vw', 'text-align': style[$index].text_align }"><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p></div>
+
+		<div ng-if="!editPage" ng-style="{ 'width': style[$index].width + 'vw', 'text-align': style[$index].text_align }"><p  ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
 			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p></div>
 	</div>
 </div>
