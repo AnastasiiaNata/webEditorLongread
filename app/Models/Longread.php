@@ -9,6 +9,7 @@ class Longread extends Model
 {
     public $table = 'longreads';
     public $timestamps = false;
+    protected $fillable = ['id', 'user_id', 'parameters', 'title', 'url'];
 
     public function user() {
     	return $this->belongsTo('App\Models\User');

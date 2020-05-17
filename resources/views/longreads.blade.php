@@ -2,7 +2,7 @@
 <html ng-app="webLongread">
     <head>
         <meta charset="utf-8">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Laravel</title>
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <script src="{{asset('js/lib/popper.min.js')}}" type="text/javascript"></script>
@@ -26,13 +26,13 @@
         <div class="header">
             <div><a href="/"><h2>ВЫЙТИ</h2></a></div>
         </div>
-        <div class="main">
+        <div class="main" >
             <div class="titleSection">
                 <h5>Ваши лонгриды</h5>
                 <div><button class="addBTN" ng-click="addLongread()"><img src="{{ asset('icons/add.svg') }}">НОВЫЙ ЛОНГРИД</button></div>
             </div>
             
-            <div class="list" ng-init="init({{$data}})">
+            <div class="list" ng-init="init()">
            
                 <div ng-repeat="curLongread in longreads track by $index" class="longread-wrapper">     
                     <div class="longread">
@@ -83,7 +83,7 @@
                                             <div class="curImg">
                                                 <div class="curImg_img"><img ng-src="@{{ curImg.src }}"></div>
                                                 <div class="curImg_text"><p>@{{ curImg.title }}</p></div>
-                                                <div class="curImg_btn" ng-click="deleteImg($index)"><img src="{{ asset('icons/garbage.svg') }}"></div>
+                                                <div class="curImg_btn" ng-click="deleteImage($index)"><img src="{{ asset('icons/garbage.svg') }}"></div>
                                             </div>
                                         </div>
                                     </div>

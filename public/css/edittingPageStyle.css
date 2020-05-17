@@ -1,5 +1,6 @@
 body {
 	font-family: 'Montserrat', sans-serif;
+	margin: 0;
 }
 
 .editSection {
@@ -16,6 +17,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .leftBTN {
@@ -25,6 +27,8 @@ body {
 	justify-content: flex-start;
 	align-items: center;
 	margin-left: 56px;
+	text-decoration: none;
+
 }
 
 .leftBTN:hover, .buttons div:hover {
@@ -53,6 +57,8 @@ body {
 	padding-left: 20px;
 	padding-bottom: 20px;
 	color: #CDCDCD;
+	text-decoration: none;
+	
 }
 
 .previewBTN {
@@ -70,6 +76,123 @@ body {
 	font-weight: 600;
 }
 
+.burger {
+	float: right;
+	display: none;
+	right: 0;
+	margin-right: 12px;
+}
+
+.burger img{
+   width: 32px;
+}
+
+
+@media (max-width: 1100px) {
+	.header {
+		height: 72px;
+	}
+
+	.saveBTN {
+		font-size: 16px;
+	}
+
+	.previewBTN {
+		font-size: 16px;
+	}
+
+	.leftBTN {
+		font-size: 16px;
+	}
+
+	.editSection {
+		margin-top: 72px;
+	}
+
+	.menu {
+		width: 50%;
+		margin-top: 72px;
+	}
+
+	
+
+
+}
+
+@media (max-width: 600px) {
+	.header {
+		height: 40px;
+		margin: 0;
+		padding: 0;
+		z-index: 9;
+	}
+
+	.burger {
+	    float: right;
+	    display: inline-block;
+	    right: 0;
+	    margin-right: 12px;
+	}
+
+	.burger img{
+	    width: 32px;
+	}
+
+	.saveBTN {
+		font-size: 12px;
+		width: 100%;
+	}
+
+	.previewBTN {
+		font-size: 12px;
+		width: 100%;
+	}
+
+	.leftBTN {
+		font-size: 12px;
+		margin-left: 0;
+	}
+
+	.buttons {
+		display: none;
+		position: absolute;
+		margin-top: 38px;
+		padding-top: 16px;
+		flex-direction: column;
+		height: auto;
+		align-items: flex-start;
+		background-color: #01233C;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+
+	.active_buttons {
+		display: flex;
+	}
+
+	.active_buttons div {
+		display: flex;
+	}
+
+	.active_buttons div:hover {
+		background-color: #002F51;
+	}
+
+	.editSection {
+		margin-top: 40px;
+	}
+
+	.menu {
+		width: 90%;
+		margin-top: 40px;
+	}
+
+	
+
+
+}
+
 
 
 .library {
@@ -82,7 +205,7 @@ body {
 .library button {
 	background-color: #20719E;
 	color: #FFFFFF;
-	font-size: 18px;
+	font-size: 16px;
 	border: none;
 	padding-bottom: 8px;
 	padding-left: 24px;
@@ -106,9 +229,12 @@ body {
 	background: #F5F5F5;
 	display: flex;
 	flex-direction: column;
-	padding-top: 3vh;
 	transition: 0.5s;
 	transform: translateX(-100%);
+}
+
+.menu-library {
+	padding-top: 12px;
 }
 
 .menu_active {
@@ -117,7 +243,7 @@ body {
 
 .menu-list {
 	display: flex;
-	height: 5.8vh;
+	height: 48px;
 	border-bottom: 1px solid;
     border-color: #C7C7C7;
     position: relative;
@@ -133,25 +259,28 @@ body {
 .menu-header {
 	display: flex;
 	align-items: center;
-	position: relative;
-	margin-bottom: 2vh;
+	justify-content: space-between;
 	padding-left: 24px;
-	padding-right: 24px;
-	height: 6%;
+	padding-right: 2px;
+	height: 2%;
+	padding-top: 8px;
+}
+
+.menu-header-library {
+	height: 4%;
+	margin-bottom: 24px;
 }
 
 
 .menu-header-title h5 {
 	font-weight: 500;
 	font-size: 20px;
+	margin: 0;
 }
 
 .menu-btn {
-	width: 4% !important;
+	width: auto;
 	height: auto;
-	position: absolute;
-	right: 1.5vw;
-	margin-right: 10px;
 	cursor: pointer;
 }
 
@@ -164,6 +293,16 @@ body {
 	top: 50%;
     margin-top: -0.625em;
     font-weight: 400;
+    font-size: 14px;
+}
+
+
+@media (max-width: 1100px) {
+	.menu {
+		width: 55%;
+		margin-top: 72px;
+		height: 100%;
+	}
 }
 
 .block {
@@ -184,20 +323,24 @@ body {
 
 .editStyle{
 	cursor: pointer;
-	margin-right: 2vw;
+	margin-right: 32px;
 	background-color: #3F78CE;
 	color: #fff;
-	padding: 0.5vw;
-	height: 5vh;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 .editContent{
 	cursor: pointer;
-	margin-right: 2vw;
+	margin-right: 48px;
 	background-color: #3F78CE;
 	color: #fff;
-	padding: 0.5vw;
-	height: 5vh;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 .moreOption{
@@ -205,8 +348,8 @@ body {
 	margin-right: 2vw;
 	background-color: inherit !important;
 	color: #fff;
-	height: 5vh;
-	width: 3.5vw;
+	height: 48px;
+	width: 4px;
 	display: flex;
 	justify-content: center;
 	position:relative;
@@ -221,17 +364,14 @@ body {
 .option {
 	display:none;
 	position: fixed;
-	right: 2vw;
 	background: #EAEAEA;
 	flex-direction: column;
-	width: 18vw;
-	padding-top: 1.5vh;
-	padding-bottom: 3vh;
-	padding-left: 1.5vw;
-	padding-right: 1.5vw;
-	margin-top: 5.2vh;
-	margin-right: -2vw;
+	width: 14vw;
 	border-radius: 5px;
+	right: 0;
+	margin-top: 40px;
+	margin-right: -12px;
+	z-index: 999;
 }
 
 .moreOption:hover .option{
@@ -250,12 +390,12 @@ body {
 	flex-direction: row;
 	border-bottom: 1px solid;
     border-color: #C7C7C7;
-    padding-top: 1.5vh;
 }
 
 .option-item img {
 	display: inline-block;
-	width: 1.2vw;
+	width: 16px;
+	padding-left: 12px;
 }
 
 .option-item h6 {
@@ -268,6 +408,14 @@ body {
 	background: #DADADA;
 }
 
+
+@media (max-width: 1100px) {
+	.option {
+		width: 20vw;
+	}
+}
+
+
 .styleSection {
 	overflow-y: auto;
 }
@@ -275,23 +423,24 @@ body {
 .form_style {
 	padding-left: 24px;
 	padding-right: 24px;
-	padding-bottom: 4vh;
-	margin-top: 4vh; 
-	width: 100%;
+	padding-bottom: 32px;
+	margin-top: 12px; 
 }
 
 .form-group {
 	margin-bottom: 32px;
+	width: 100%;
 }
 
 .form-group label {
 	color: #5C5C5C;
-	font-size: 16px;
+	font-size: 16px;/*
 	padding-bottom: 6px;
-	margin-bottom: 0;
+	margin-bottom: 0;*/
 }
 
 .form-group input, textarea {
+	font-family: 'Montserrat', sans-serif;
 	width: 100%;
 	height: 5vh;
 	border: none;
@@ -302,9 +451,15 @@ body {
 	color: #5C5C5C;
 	font-size: 18px;
 	padding-bottom: 8px;
+	margin-top: 12px;
+}
+
+.color-picker-style {
+	margin-top: 12px;
 }
 
 .form-group select {
+	font-family: 'Montserrat', sans-serif;
 	width: 100%;
 	height: 5vh;
 	background-color: inherit;
@@ -316,6 +471,7 @@ body {
 	color: #5C5C5C;
 	font-size: 18px;
 	padding-bottom: 8px;
+	margin-top: 12px;
 }
 
 .form-group select:hover, .form-group input:hover, .form-group textarea:hover {
@@ -350,12 +506,19 @@ body {
 
 .contentSection {
 	overflow-y: auto;
+	width: 100%;
+}
+
+.menu_content {
+	width: 45% !important;
 }
 
 
 
 .contentSection textarea {
-	height: 30vh !important;
+	font-family: 'Montserrat', sans-serif;
+	height: 280px !important;
+	margin-top: 12px;
 }
 
 .loadBTN {
@@ -434,9 +597,12 @@ body {
 }
 
 
+
+
 /*Форма загрузки файла*/
 
 .inputfile input{
+	font-family: 'Montserrat', sans-serif;
 	height: 0;
     overflow: hidden;
     width: 0;
@@ -461,6 +627,7 @@ body {
 
     
 .btn-1 span {
+	font-family: 'Montserrat', sans-serif;
     display: inline-block;
     height: 100%;
     transition: all 0.3s;
@@ -491,10 +658,201 @@ body {
 }
 
 
+.overlay {
+	z-index: 9999;
+  	position: fixed;
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+  	background: rgba(0, 0, 0, 0.7);
+  	transition: opacity 500ms;
+  	visibility: visible;
+  	opacity: 1;
+}
+
+.popup {
+  	margin: 70px auto;
+  	padding: 20px;
+  	background: #fff;
+  	border-radius: 5px;
+  	width: 45%;
+  	position: relative;
+  	transition: all 5s ease-in-out;
+}
+
+
+.popup .close {
+	position: absolute;
+  	top: 10px;
+  	right: 30px;
+  	transition: all 200ms;
+  	color: #333;
+  	cursor: pointer;
+}
+.popup .close:hover {
+  	color: #06D85F;
+}
 
 
 
-p, h1, h2, h3, h4, h5, h6[contentEditable] {
+.publishBTN {
+	background-color: #209E62;
+	color: #fff;
+	border:none;
+	font-size: 18px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.publishBTN:hover {
+	background-color: #1A8250;
+	color: #fff;
+	text-decoration: none;
+}
+
+.form-group2 {
+	display: flex;
+	margin-bottom: 32px;
+	flex-direction: row;
+	align-items: center;
+}
+
+.form-group2 label {
+	font-family: 'Montserrat', sans-serif;
+	color: #5C5C5C;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 0;
+	padding-bottom: 4px;
+	margin-right: 4px;
+}
+
+.form-group2 input {
+	font-family: 'Montserrat', sans-serif;
+	width: 100%;
+	height: 5vh;
+	border: none;
+	background-color: inherit;
+	border-bottom-style: ridge;
+	border-bottom: thin solid;
+	border-bottom-color: #8D8D8D;
+	color: #5C5C5C;
+	font-size: 18px;
+	padding-bottom: 4px;
+}
+
+.form-group2 input:hover {
+	border-bottom-color: #139BE8;
+}
+
+.form-group2 input:focus{
+	border:none;
+	border-bottom-style: ridge;
+	border-bottom: thin solid;
+	border-bottom-color: #139BE8;
+	outline: none;
+}
+
+.error {
+	color: #BF3D14;
+}
+
+
+@media (max-width: 1100px) {
+	.menu {
+		width: 55%;
+		margin-top: 72px;
+		height: 100%;
+	}
+
+	.form-group select, .form-group input, .form-group textarea {
+		height: auto;
+	}
+
+	.form-group label {
+		padding-bottom: 12px;
+	}
+
+	.popup {
+		width: 80%;
+	}
+}
+
+
+@media (max-width: 600px) {
+	.library button {
+		font-size: 14px;
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
+	.menu {
+		width: 100%;
+		margin-top: 0;
+		height: 100%;
+	}
+
+	.menu-list {
+		height: 56px;
+	}
+
+	.moreOption {
+		display: none;
+	}
+
+	.editStyle{
+		margin-right: 24px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		padding-left: 4px;
+		padding-right: 4px;
+		font-size: 12px;
+	}
+
+	.editContent{
+		margin-right: 12px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		padding-left: 4px;
+		padding-right: 4px;
+		font-size: 12px;
+	}
+
+	.popup {
+		width: 94%;
+		height: 55%;
+		margin-top: 24px;
+		margin-bottom: 8px;
+		padding-top: 40px;
+	}
+
+	.form_style {
+		padding-left: 8px;
+		padding-right: 9px;
+	}
+
+	.form_style h3 {
+		font-size: 24px;
+	}
+
+	.popup .close {
+		right: 40px;
+	}
+
+	.form-group2 {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+
+
+
+
+p[contentEditable], h1[contentEditable], h2[contentEditable], h3[contentEditable], h4[contentEditable], h5[contentEditable], h6[contentEditable] {
   cursor: pointer;
   /*padding: 1em;*/
 }

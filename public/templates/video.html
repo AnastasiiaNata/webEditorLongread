@@ -1,4 +1,4 @@
 <div class="video_block" >
- 	<iframe resize ng-style="{ 'width':'50vw', 'height': '60vh' }" ng-src="{{ videos[$index][0].src.split('watch?v=')[0] + 'embed/' + videos[$index][0].src.split('watch?v=')[1].split('&')[0] + '?loop=1&rel=0'| trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 	<iframe resize ng-style="{ 'width':'50%', 'height': (windowWidth > 770) ? '550px': '250px' }" ng-src="{{ videos[$index][0].src.split('watch?v=')[0] + 'embed/' + videos[$index][0].src.split('watch?v=')[1].split('&')[0] + '?loop=1&rel=0'| trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 </div>

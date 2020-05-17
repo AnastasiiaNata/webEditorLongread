@@ -18,10 +18,11 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
   $scope.settings = [{'en': "main", 'title': "Основные настройки", 'header': true, 'img': true}, {'en': 'action','title': "Действия", 'delete': true}];
   $scope.images = [];
   $scope.oldImg = [];
+  $scope.deleteImg = [];
 
-  $scope.init = function(data){
-    WebLongreadRepository.load({id: data['id']},function(response) {
-      $scope.longreads = data;
+  $scope.init = function(){
+    WebLongreadRepository.load(function(response) {
+      $scope.longreads = response;
       setContent();
       console.log("Данные получены");
       console.log($scope.longreads);
@@ -29,34 +30,46 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
   }
 
   function setContent(){
-    for (var i = 0; i < $scope.longreads.length; i++) {
-      data = JSON.parse($scope.longreads[i]["parameters"]);
+    for (var i = 0; i < Object.keys($scope.longreads).length - 2; i++) {
       $scope.oldImg[i] = [];
-      if (data == null){
-        $scope.images[i] = [{'src': '../../templates/images/10.jpg', 'title': ''}];
+      $scope.deleteImg[i] = [];
+      if ($scope.longreads[i]["parameters"] != null) {
+        if ($scope.longreads[i]["parameters"] !== undefined){
+          data = JSON.parse($scope.longreads[i]["parameters"]);
+          if (Object.keys(data["img"][0]).length > 0) {
+            for (let j = 0; j < data["img"].length; j++){
+              if (data["img"][j]["src"].includes("../..") == false) {
+                pathOld = "/public/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
+                path = "/storage/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
+                data["img"][j]["src"] = path;
+                $scope.oldImg[i][j] = pathOld;
+              }
+              else {
+                data["img"][j]["src"] = data["img"][j]["src"];
+              } 
+            }
+            $scope.images[i] = data["img"];
+          }
+        }
       }
       else {
-        for (let j = 0; j < data["img"].length; j++){
-          if (data["img"][j]["src"].includes("../..") == false) {
-            pathOld = "/public/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
-            path = "/storage/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
-            data["img"][j]["src"] = path;
-            $scope.oldImg[i] = pathOld;
-          }
-          else {
-            data["img"][j]["src"] = data["img"][j]["src"];
-          } 
-        }
-        $scope.images[i] = data["img"];
+        $scope.images[i] = [{'src': '../../templates/images/10.jpg', 'title': ''}];
       }
     }
   }
 
   $scope.addLongread = function(){
     WebLongreadRepository.create({}, function(response) {
-      console.log("saved");
-      });
+      console.log("create");
+      $scope.init();
+    });
+  }
 
+  $scope.deleteImage = function(index){
+    console.log($scope.deleteImg);
+    $scope.deleteImg[$scope.curLong].push($scope.images[$scope.curLong][0]);
+    $scope.images[$scope.curLong] = {};
+    $scope.longreads[$scope.curLong]["parameters"]["img"] = {};
   }
 
   $scope.statusSettings = false;
@@ -115,26 +128,25 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
     //   $scope.oldImg[$scope.curEdittingBlock][i] = pathOld;
     // }
     $scope.images[$scope.curLong] = imagesrc;
-    
+    $scope.loadImg = false;
   }
 
 
 
   $scope.save = function(){
     $scope.longreads[$scope.curLong]["parameters"] = JSON.parse($scope.longreads[$scope.curLong]["parameters"]);
-    console.log($scope.longreads[$scope.curLong]);
-    console.log($scope.longreads[$scope.curLong]["parameters"]);
+
     if ($scope.longreads[$scope.curLong]["parameters"] == null) {
       $scope.longreads[$scope.curLong]["parameters"] = {'img': [$scope.images[$scope.curLong][0]]};
     }
     else {
-      $scope.longreads[$scope.curLong]["parameters"]["img"] = $scope.images[$scope.curLong][0];
+      $scope.longreads[$scope.curLong]["parameters"]["img"][0] = $scope.images[$scope.curLong][0];
     }
-    $scope.postData = [$scope.longreads[$scope.curLong]];
+    $scope.postData = [$scope.longreads[$scope.curLong], $scope.oldImg, $scope.deleteImg];
     console.log($scope.postData);
-    WebLongreadRepository.save({}, $scope.postData, function(response) {
+    WebLongreadRepository.save($scope.postData, function(response) {
       console.log("saved");
-      });
+    });
   }
 
 
@@ -143,7 +155,7 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
     $scope.postData = $scope.longreads[$scope.curLong]['id'];
     WebLongreadRepository.delete($scope.postData, function(response) {
       console.log("deleted");
-      });
+    });
     $scope.longreads.splice($scope.curLong, 1);
     $scope.images.splice($scope.curLong, 1);
   }
@@ -169,6 +181,8 @@ webLongread.filter("trustUrl", function($sce) {
     return $sce.trustAsResourceUrl(Url);
   };
 });
+
+
 
 
 

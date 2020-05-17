@@ -18,8 +18,8 @@ class CreateBlocksTable extends Migration
             $table->string('category');
             $table->string('title');
             $table->string('fileName');
-            $table->json('content');
-            $table->json('styles');
+            $table->text('content');
+            $table->text('styles');
         });
     }
 

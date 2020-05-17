@@ -1,19 +1,18 @@
-	<div class="container-fluid img_text_block">
+	<div class="img_text_block" resize>
 		<div class="section" ng-style="{ 'width': style[$index].width + 'vw', 'flex-direction': style[$index].direction }">
-
 			<div class ="img_section" ng-style="{ 'padding-right': style[$index].direction == 'row' ? '5vw' : '0vw', 'padding-left': style[$index].direction == 'row-reverse' ? '5vw' : '0vw' }"><img ng-src="{{ images[$index][0].src }}"></div>
 			
 			<div class="text_section" ng-style="{ 'text-align': style[$index].text_align }" ng-if="editPage">
-				<div><h3 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h3></div>
+				<div><h3 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color, 'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 2 + 'px' }"></h3></div>
 				<div><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': (windowWidth > 770) ? style[$index].main_text.font_size + 'px' : style[$index].main_text.font_size - 2 + 'px' }"></p></div>
 			</div>
 
 
 			<div class="text_section" ng-style="{ 'text-align': style[$index].text_align }" ng-if="!editPage">
-				<div><h3  ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color, 'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h3></div>
+				<div><h3  ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color, 'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 2 + 'px' }">{{mainText[$index].title}}</h3></div>
 				<div><p  ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }"></p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': (windowWidth > 770) ? style[$index].main_text.font_size + 'px' : style[$index].main_text.font_size - 2 + 'px' }">{{mainText[$index].text}}</p></div>
 			</div>
 
 		</div>

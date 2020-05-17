@@ -1,0 +1,10 @@
+ <div>
+    <div class="gallery_header">
+      <h1 contentEditable ng-model="mainText[$index].title"></h1>
+      <p contentEditable ng-model="mainText[$index].text"></p>
+    </div>
+
+      <div class="gallery_column_2"  >
+        <img ng-src="{{ image.src }}" ng-repeat="image in images[$index]">
+      </div>
+</div>

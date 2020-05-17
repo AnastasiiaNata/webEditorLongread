@@ -1,0 +1,34 @@
+.overlay {
+	z-index: 9999;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	transition: opacity 500ms;
+	visibility: visible;
+ 	opacity: 1;
+ 	margin-bottom: 40px;
+ 	margin-left: 40px;
+}
+
+.returnBTN {
+	height: 6vh;
+	border: none;
+	background: radial-gradient(112.5% 2678.91% at 86.42% 23.96%, #139BE8 0%, #11F0E3 100%);
+	color: #fff;
+	font-weight: 600;
+	font-size: 18px;
+	padding-left: 24px;
+	padding-right: 24px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-decoration: none;
+}
+
+.returnBTN img {
+	margin-right: 16px;
+}
+
+.returnBTN:hover {
+	text-decoration: none;
+	color: #fff;
+}

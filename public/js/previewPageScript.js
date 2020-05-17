@@ -10,7 +10,7 @@ webPreview.factory('WebEditorRepository', ['$resource',
  ]);
 
 
-webPreview.controller("PreviewController", function($scope, $document, WebEditorRepository){
+webPreview.controller("PreviewController", function($scope, $document, WebEditorRepository, $window){
 	$scope.templates = [];
 	$scope.curTempls = [];
 	$scope.mainText = [];
@@ -20,19 +20,26 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
 	$scope.deleteImgServer = [];
 	$scope.videos = [];
 	$scope.editPage = false;
+  $scope.statusButtom = false;
 
 
-	$scope.init = function(longreadId){
+	$scope.init = function(longreadId, previewStatus){
     WebEditorRepository.load({id: longreadId}, function(response) {
     	$scope.curTempls = response[0];
     	if (Object.keys($scope.curTempls).length > 0) {
         	$scope.statusButtom = true;
-      	}
-      	setContent();
+      }
+      setContent();
       	// $scope.templates = response[1];
-      	console.log("Данные получены");
-      	console.log($scope.curTempls);
-      	console.log($scope.mainText);
+      console.log("Данные получены");
+      if (previewStatus == 1){
+        $scope.statusButtom = true;
+      }
+      else {
+        $scope.statusButtom = false;
+      }
+      // console.log($scope.curTempls);
+      // console.log($scope.mainText);
   	})};
 
 	function setContent(){
@@ -66,6 +73,24 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
     }
   }
 
+    $scope.currentSlide = 0;
+  
+  $scope.setCurrentSlideIndex = function(index) {
+    $scope.currentSlide = index;
+  };
+  
+  $scope.isCurrentSlideIndex = function(index) {
+    return $scope.currentSlide === index;
+  };
+
+
+  $scope.prevSlide = function($index) {
+    $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
+  };
+
+  $scope.nextSlide = function($index) {
+    $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
+  };
 
 
 
@@ -76,5 +101,57 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
 webPreview.filter("trustUrl", function($sce) {
   return function(Url) {
     return $sce.trustAsResourceUrl(Url);
+  };
+});
+
+
+webPreview.directive('resize', function ($window) {
+    return function (scope, element) {
+        var w = angular.element($window);
+        scope.getWindowDimensions = function () {
+            return {
+                'h': w.height(),
+                'w': w.width()
+            };
+        };
+        scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
+            scope.windowHeight = newValue.h;
+            scope.windowWidth = newValue.w;
+
+            scope.style = function () {
+                return {
+                    'height': (newValue.h - 100) + 'px',
+                        'width': (newValue.w - 100) + 'px'
+                };
+            };
+
+        }, true);
+
+        w.bind('resize', function () {
+            scope.$apply();
+        });
+    }
+});
+
+webPreview.animation('.slide-animation', function () {
+  return {
+    addClass: function (element, className, done) {
+      if (className == 'ng-hide') {
+        TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
+      }
+      else {
+        done();
+      }
+    },
+    removeClass: function (element, className, done) {
+      if (className == 'ng-hide') {
+        element.removeClass('ng-hide');
+        TweenMax.set(element, { left: element.parent().width() });
+        TweenMax.to(element, 0.5, {left: 0, onComplete: done });
+      }
+      else {
+        done();
+      }
+    }
   };
 });

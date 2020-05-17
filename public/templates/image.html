@@ -1,12 +1,12 @@
-<div class="img_text_block2">
+<div class="img_text_block2" >
 	<div class="section2" ng-style="{ width: style[$index].width + '%'}">
 		<div class ="img_section2"><img ng-src="{{ images[$index][0].src }}"></div>
 		<div class="text_section2" ng-style="{ 'text-align': style[$index].text_align, 'align-self': (style[$index].text_align == 'center' ? 'center' : style[$index].text_align == 'left' ? 'flex-start' : 'flex-end') }">
 			<div ng-if="editPage"><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' +style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }">Описание картинки</p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' }"></p></div>
 
 			<div ng-if="!editPage"><p  ng-model="mainText[$index].text" ng-style="{ 'color': '#' +style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'vw' }">Описание картинки</p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' }">{{mainText[$index].text}}</p></div>
 		</div>
 	</div>
 </div>

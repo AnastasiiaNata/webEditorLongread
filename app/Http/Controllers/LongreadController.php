@@ -20,12 +20,33 @@ class LongreadController extends Controller
 		return view('welcome');
 	}
 
-	// public function load(Request $request){
-	// 	$user = Auth::user();
-	// 	$data = $user->longreads;
-	// 	// dd($data);
-	// 	return view('longreads', compact('data'));
-	// }
+	public function publishLongread(Request $request, $id){
+		$requestData = $request->all();
+		$theSame = Longread::where('url', '=', $requestData[0])->get();
+		if (count($theSame) > 0) {
+			if (empty($requestData[0])) {
+				$error[0] = -1;
+			}
+			else {
+				$error[0] = 0;
+			}
+			return $error;
+		}
+		
+		else {
+			$long = Longread::where('id', '=', $id)->update(['url' => $requestData[0]]);
+			return $requestData;
+		}
+	}
+
+	public function showLongread($url){
+		$long = Longread::where("url", '=', $url)->get();
+		$longreadId = $long[0]['id'];
+		$previewStatus = 0;
+		return view('preview', compact(['longreadId', 'previewStatus']));
+	}
+
+	
 
 	public function loadLongread($id){
 		$longreadId = $id;
@@ -37,11 +58,16 @@ class LongreadController extends Controller
 		for ($i = 0; $i < count($longread); $i++){
 			$fileName = Block::where('id', '=', $longread[$i]['block_id'])->get()[0]['fileName'];
 			$longread[$i]['fileName'] = $fileName;
+
+			$c = $longread[$i]['content'];
 		} 
 		$blocks = Block::all();
+		$c = $blocks[0];
+		$long = Longread::where('id', '=', $id)->get();
 		$data = [];
 		$data[0] = $longread;
 		$data[1] = $blocks;
+		$data[2] = $long[0];
 		return $data;
 	}
 
@@ -105,6 +131,7 @@ class LongreadController extends Controller
 				]);
 			}
 		}
+
 		return $request;
 	}
 
@@ -115,7 +142,8 @@ class LongreadController extends Controller
 
 	public function loadPreview($id){
 		$longreadId = $id;
-		return view('preview', compact('longreadId'));
+		$previewStatus = 1;
+		return view('preview', compact(['longreadId', 'previewStatus']));
 	}
 
 }

@@ -14,22 +14,23 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular-route.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-animate.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/TweenMax.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl.carousel.min.js.js') }}"></script>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl.carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl.theme.css') }}">
         
-        <script type="text/javascript" src="{{ asset('js/edittingPageScript.js') }}"></script>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/edittingPageStyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/templates_css/templatesStyle.css') }}" />
         <script type="text/javascript" src="{{ asset('js/previewPageScript.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/previewPageStyle.css') }}" />
 
         
 </head>
-<body ng-controller="PreviewController" ng-init="init({{$longreadId}})">
+<body ng-controller="PreviewController" ng-init="init({{$longreadId}}, {{$previewStatus}})">
 	<div ng-repeat="curTempl in curTempls track by $index">
-        <div ng-include="curTempl.fileName"></div>	
-		
+                <div ng-include="curTempl.fileName"></div>	
 	</div>
+        <div ng-if="statusButtom" class="overlay"><a href="../{{$longreadId}}" class="returnBTN" ng-click="returnEdit()"><img src="{{ asset('icons/return.svg') }}">К РЕДАКТИРОВАНИЮ</a></div>
 </body>
 </html>

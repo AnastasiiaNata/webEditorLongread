@@ -2,13 +2,14 @@
 <html ng-app="webEditor">
     <head>
         <meta charset="utf-8">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>LongreadDev</title>
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-        <script src="{{asset('js/lib/popper.min.js')}}" type="text/javascript"></script>
-        <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/jasny-bootstrap.min.js') }}"></script>
+        <!-- <script src="{{asset('js/lib/popper.min.js')}}" type="text/javascript"></script> -->
+        <!-- <script type="text/javascript" src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/jasny-bootstrap.min.js') }}"></script> -->
+
+        
 
         <script type="text/javascript" src="{{ asset('js/lib/angular.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-resource.min.js') }}"></script>
@@ -17,12 +18,21 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular-animate.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/TweenMax.min.js') }}"></script>
 
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}">
+
+        
+        
+
+        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}"> -->
         
         <script type="text/javascript" src="{{ asset('js/edittingPageScript.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/edittingPageStyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/templates_css/templatesStyle.css') }}" />
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-theme.css') }}">
+        <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl-carousel.min.js') }}"></script>
 
         <link rel="stylesheet" href="{{ asset('js/angularjs-color-picker/dist/angularjs-color-picker.min.css') }}" />
         <script src="{{ asset('js/tinycolor2/dist/tinycolor-min.js') }}"></script>
@@ -31,6 +41,8 @@
         <link rel="stylesheet" href="{{ asset('js/angular-video-background/dist/angular-video-background.min.css') }}" />
         <script src="{{ asset('js/angular-video-background/dist/angular-video-background.min.js') }}"></script>
 
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/animate.css/animate.css') }}">
+
 
     </head>
     <body ng-controller="TemplController">
@@ -38,21 +50,50 @@
             <div class="leftBTN">
                 <div><a href="/longread">Мои лонгриды</a></div>
             </div>
-            <div class="buttons">
-
-                <div class="previewBTN"><a href="{{$longreadId}}/preview" ng-click="saveTemples({{$longreadId}})" id="butView" >Предпросмотр</a></div>
-                <div class="saveBTN"><a href="#" ng-click="saveTemples({{$longreadId}})">Сохранить</a></div>
+            <div class="burger" ng-click="openBurger()"><img src="{{ asset('icons/menu.svg') }}"></div>
+            <div class="buttons" ng-class="active_buttons">
+                <div class="previewBTN"><a href="#" ng-click="publish({{$longreadId}})" id="butView" >Опубликовать</a></div>
+                <div class="previewBTN"><a href="/longread/{{$longreadId}}/preview" ng-click="saveTemples({{$longreadId}})" id="butView" >Предпросмотр</a></div>
+                <div class="saveBTN"><a href="#" ng-click="saveTemples({{$longreadId}})">Сохранить</a></div>  
             </div>
+            
         </div>
 
         <div class="wrapper">
-            <div class="menu" ng-class = "{menu_active: statusLibrary}">
-                <div class="menu-header">
+            <div class="menu menu-library" ng-class = "{menu_active: statusLibrary}">
+                <div class="menu-header menu-header-library">
                     <div class="menu-header-title"><h5>Библиотека шаблонов</h5></div>
                     <div class="menu-btn" ng-click="closeLibrary()"><img src="{{ asset('icons/close.svg') }}"></div>
                 </div>
                 <div class="menu-list" ng-repeat="template in templates">
                     <div ng-click="addTemple($index)" templId=$index><h6>@{{template.title}}</h6></div>
+                </div>
+            </div>
+
+            <div class="overlay" ng-if="statusPublish">
+                <div class="popup">
+                    <div class="close" ng-click="closePublish()" ng-style="{ 'width': '2.5%'}"><img src="{{ asset('icons/close.svg') }}"></div>
+                    <div class="form_style" ng-if="!published"> 
+                        <h3>Публикация лонгрида</h3>
+                        <p>Введите адрес страницы для вашего лонгрида</p>
+                        <p class="error" ng-if="showErrorExist">Введенный адрес уже существует. Введите, пожалуйста, другой</p>
+                        <p class="error" ng-if="showErrorValue">Вы не ввели адрес. Введите, пожалуйста, еще раз</p>
+                        <div class="form-group2">
+                            <label for="n">@{{documentLocation}}/</label>
+                            <input id="n" name="title_longread" placeholder="titleLongread" ng-model="settingsLongread.url">
+                        </div>
+                        <button ng-if="!showLongread" class="publishBTN" ng-click="publishLongread({{$longreadId}})">Опуликовать</button>
+                        <a href="/view/@{{settingsLongread.url}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a>
+                    </div>
+
+                    <div class="form_style" ng-if="published"> 
+                        <h3>Публикация лонгрида</h3>
+                        <p>Адрес вашего опубликованного лонгрида</p>
+                        <div class="form-group2">
+                            <label for="n">@{{documentLocation}}/@{{long["url"]}}</label>
+                        </div>
+                        <a href="/view/@{{long['url']}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a>
+                    </div>
                 </div>
             </div>
 
@@ -109,7 +150,7 @@
                                     <div ng-if="templatesStyle['title']">
                                         <div class="form-group" id = "6">
                                             <label>Заголовок: Цвет</label></br>
-                                            <color-picker ng-model="style[curEdittingBlock].title.color"></color-picker>
+                                            <div class="color-picker-style"><color-picker ng-model="style[curEdittingBlock].title.color"></color-picker></div>
                                         </div>
                                         <div class="form-group" id = "7">
                                             <label>Заголовок: Размер шрифта</label></br>
@@ -180,15 +221,15 @@
                         </form>
                     </div>
                 </div>
-                <div class="contentSection"></div>
+                
             </div>
 
-            <div class="menu" ng-class = "{menu_active: statusContentSection}" ng-style="{ 'width': '50%'}">
+            <div class="menu menu_content" ng-class = "{menu_active: statusContentSection}" >
                 <div class="contentSection">
                     <div class="block1" id = "1">
                         <div class="menu-header">
                             <div class="menu-header-title"><h5>Контент</h5></div>
-                            <div class="menu-btn" ng-click="closeContentSection()" ng-style="{ 'width': '4%'}"><img src="{{ asset('icons/close.svg') }}"></div>
+                            <div class="menu-btn" ng-click="closeContentSection()"><img src="{{ asset('icons/close.svg') }}"></div>
                         </div>
                         <div class="form_style">
                             <div class="form-group" id = "23" ng-if="templatesContent['img']">
@@ -200,7 +241,8 @@
                                             <div ng-if="loadImg" class="loadImg">
                                                 <form enctype="multipart/form-data" method="post" class="inputfile">
                                                     {{ csrf_field() }}
-                                                    <input type="file" id="file"  ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                    <input ng-if="oneImg" type="file" id="file" ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                    <input ng-if="!oneImg" type="file" id="file" multiple ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
                                                     <label for="file" class="btn-1"><span>Выбрать файл</span></label>
                                                 </form> 
                                             </div>
@@ -279,7 +321,7 @@
                                             <img src="{{ asset('icons/up.svg') }}">
                                             <h6>Переместить наверх</h6>
                                         </div>
-                                        <div class="option-item" ng-click="move($index, 0)">
+                                        <div class="option-item" ng-click="move($index, 0)" ng-style="{'border': 'none'}">
                                             <img src="{{ asset('icons/down.svg') }}">
                                             <h6>Переместить вниз</h6>
                                         </div>
@@ -295,4 +337,6 @@
             @{{ $first }} -->
         </div>
     </body>
+
+    
 </html>

@@ -15,7 +15,8 @@ class CreateLongreadsTable extends Migration
     {
         Schema::create('longreads', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->nullable()->default("Some kind of longread");
+            $table->string('title')->default("Some kind of longread");
+            $table->string('url')->nullable();
             $table->integer('user_id')->unsigned();
             $table->json('parameters')->nullable();
         });

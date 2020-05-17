@@ -1,19 +1,19 @@
-	<div class="container-fluid cover" ng-style="{ 'height': style[$index].height + 'vh', 'background-image': 'url(' + images[$index][0].src + ')' }">
+	<div class="container-fluid cover" resize ng-style="{ 'height': style[$index].height + 'vh', 'background-image': 'url(' + images[$index][0].src + ')' }">
 		<div ng-if="editPage" class="cover_text" ng-style="{ 'justify-content': style[$index].justify_content, 'align-items': style[$index].align_items }">
 			<div><h5 contentEditable strip-br ng-model="mainText[$index].overhead" ng-style="{ 'color':'#' + style[$index].overhead.color,
-			'font-family': style[$index].overhead.font_family, 'font-size': style[$index].overhead.font_size + 'vw' }"></h5></div>
+			'font-family': style[$index].overhead.font_family, 'font-size': (windowWidth > 770) ? style[$index].overhead.font_size + 'px' : style[$index].overhead.font_size - 20 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right') }"></h5></div>
 			<div><h2 contentEditable strip-br ng-model="mainText[$index].title" ng-style="{ 'color': '#' +style[$index].title.color,
-			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h2></div>
+			'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 80 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right')}"></h2></div>
 			<div><h6 contentEditable strip-br ng-model="mainText[$index].subtitle" ng-style="{ 'color':'#' + style[$index].subtitle.color,
-			'font-family': style[$index].subtitle.font_family, 'font-size': style[$index].subtitle.font_size + 'vw' }"></h6></div>
+			'font-family': style[$index].subtitle.font_family, 'font-size': (windowWidth > 770) ? style[$index].subtitle.font_size + 'px' : style[$index].subtitle.font_size - 20 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right') }"></h6></div>
 		</div>
 
 		<div ng-if="!editPage" class="cover_text" ng-style="{ 'justify-content': style[$index].justify_content, 'align-items': style[$index].align_items }">
 			<div><h5  ng-model="mainText[$index].overhead" ng-style="{ 'color':'#' + style[$index].overhead.color,
-			'font-family': style[$index].overhead.font_family, 'font-size': style[$index].overhead.font_size + 'vw' }"></h5></div>
+			'font-family': style[$index].overhead.font_family, 'font-size': (windowWidth > 770) ? style[$index].overhead.font_size + 'px' : style[$index].overhead.font_size - 20 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right') }">{{mainText[$index].overhead}}</h5></div>
 			<div><h2  ng-model="mainText[$index].title" ng-style="{ 'color': '#' +style[$index].title.color,
-			'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'vw' }"></h2></div>
+			'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 80 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right') }">{{mainText[$index].title}}</h2></div>
 			<div><h6  ng-model="mainText[$index].subtitle" ng-style="{ 'color':'#' + style[$index].subtitle.color,
-			'font-family': style[$index].subtitle.font_family, 'font-size': style[$index].subtitle.font_size + 'vw' }"></h6></div>
+			'font-family': style[$index].subtitle.font_family, 'font-size': (windowWidth > 770) ? style[$index].subtitle.font_size + 'px' : style[$index].subtitle.font_size - 20 + 'px', 'text-align': (style[$index].align_items == 'center' ? 'center' : style[$index].align_items == 'flex-start' ? 'left' : 'right') }">{{mainText[$index].subtitle}}</h6></div>
 		</div>
 	</div>
