@@ -27,6 +27,7 @@ Route::get('/longread/load', 'LongreadsController@loadList');
 Route::post('/longread/create', 'LongreadsController@create');
 Route::post('/longread/save', 'LongreadsController@save');
 Route::post('/longread/delete', 'LongreadsController@deleteLongread');
+Route::post('/longread/publish', 'LongreadsController@publishLongread');
 
 
 Route::get('/longread/{id}', 'LongreadController@loadLongread');

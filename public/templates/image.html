@@ -1,15 +1,18 @@
-<div class="img_text_block2" >
-	<div class="section2" ng-style="{ width: style[$index].width + '%'}">
-		<div class ="img_section2"><img ng-src="{{ images[$index][0].src }}"></div>
-		<div class="text_section2" ng-style="{ 'text-align': style[$index].text_align, 'align-self': (style[$index].text_align == 'center' ? 'center' : style[$index].text_align == 'left' ? 'flex-start' : 'flex-end') }">
+<div resize class="img_text_block2" ng-style="{'background-color': '#' + style[$index].bg_color,  'padding-top': (windowWidth > 800) ? style[$index].padding_top_desktop + 'px' : style[$index].padding_top_mobile + 'px', 'padding-bottom': (windowWidth > 800) ? style[$index].padding_bottom_desktop + 'px' : style[$index].padding_bottom_mobile + 'px'}">
+	<div class="section2" ng-style="{ }">
+		<div class ="img_section2" ng-style="{width: style[$index].width + '%', 'align-self': style[$index].align_items}"><img ng-src="{{ images[$index][0].src }}" ng-style="{'box-shadow': style[$index].img.text_shadow_x + 'px ' + style[$index].img.text_shadow_y + 'px ' + style[$index].img.text_shadow_blur + 'px ' + '#' + style[$index].img.text_shadow_color}"></div>
+		<div class="text_section2" ng-style="{ 'text-align': style[$index].text_align, width: style[$index].width + '%', 'align-self': style[$index].align_items  }">
 			<div ng-if="editPage"><p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' +style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' }"></p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' , 'font-weight': style[$index].main_text.font_weight, 'font-style': style[$index].main_text.font_style, 'text-decoration': style[$index].main_text.text_decoration, 'text-shadow': style[$index].main_text.text_shadow_x + 'px ' + style[$index].main_text.text_shadow_y + 'px ' + style[$index].main_text.text_shadow_blur + 'px ' + '#' + style[$index].main_text.text_shadow_color }"></p></div>
 
 			<div ng-if="!editPage"><p  ng-model="mainText[$index].text" ng-style="{ 'color': '#' +style[$index].main_text.color,
-			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' }">{{mainText[$index].text}}</p></div>
+			'font-family': style[$index].main_text.font_family, 'font-size': style[$index].main_text.font_size + 'px' , 'font-weight': style[$index].main_text.font_weight, 'font-style': style[$index].main_text.font_style, 'text-decoration': style[$index].main_text.text_decoration, 'text-shadow': style[$index].main_text.text_shadow_x + 'px ' + style[$index].main_text.text_shadow_y + 'px ' + style[$index].main_text.text_shadow_blur + 'px ' + '#' + style[$index].main_text.text_shadow_color }">{{mainText[$index].text}}</p></div>
 		</div>
 	</div>
 </div>
+
+
+<!-- 'align-self': (style[$index].text_align == 'center' ? 'center' : style[$index].text_align == 'left' ? 'flex-start' : 'flex-end') -->
 
 
 

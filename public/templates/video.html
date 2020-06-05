@@ -1,4 +1,5 @@
-<div class="video_block" >
- 	<iframe resize ng-style="{ 'width':'50%', 'height': (windowWidth > 770) ? '550px': '250px' }" ng-src="{{ videos[$index][0].src.split('watch?v=')[0] + 'embed/' + videos[$index][0].src.split('watch?v=')[1].split('&')[0] + '?loop=1&rel=0'| trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div resize class="video_block" ng-style="{'background-color': '#' + style[$index].bg_color, 'padding-top': (windowWidth > 800) ? style[$index].padding_top_desktop + 'px' : style[$index].padding_top_mobile + 'px', 'padding-bottom': (windowWidth > 800) ? style[$index].padding_bottom_desktop + 'px' : style[$index].padding_bottom_mobile + 'px', 'padding-left': (style[$index].width == 100) ? 0 : 40 + 'px', 'padding-right': (style[$index].width == 100) ? 0 : 40 + 'px'}">
+ 	<iframe resize ng-style="{ 'width': style[$index].width + 'vw', 'height': style[$index].height + 'vh' }" ng-src="{{ videos[$index][0].src.split('watch?v=')[0] + 'embed/' + videos[$index][0].src.split('watch?v=')[1].split('&')[0] + '?loop=1&rel=0'| trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 </div>
+<!-- 'width':'50%', 'height': (windowWidth > 770) ? '550px': '250px' -->

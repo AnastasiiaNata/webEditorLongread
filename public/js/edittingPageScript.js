@@ -35,13 +35,11 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
      
       setContent();
-      console.log($scope.oldImg);
       $scope.templates = response[1];
       $scope.long = response[2];
-      console.log($scope.curTempls);
-      // console.log(JSON.parse($scope.templates["content"]));
+      $scope.long['parameters'] = JSON.parse($scope.long['parameters']);
+      console.log($scope.long);
       console.log("Данные получены");
-      console.log($scope.oldImg);
   })};
 
   function setContent(){
@@ -53,7 +51,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
       $scope.oldImg[i] = [];
       for (let j = 0; j < data["img"].length; j++){
-        $scope.oldImg[i][j] = "";
         if (data["img"][j]["src"].includes("../..") == false) {
           pathOld = "/public/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
           path = "/storage/" + data["img"][j]["src"].split("/")[2] + "/" + data["img"][j]["src"].split("/")[3];
@@ -73,31 +70,54 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       for (let key in dataStyle){
         $scope.style[i][key] = dataStyle[key];
       }
-      $scope.initSlider(i, $scope.style[i]);
+      $scope.initSlider(i, $scope.style[i]["slider"]);
     }
   }
 
   $scope.initSlider = function(id, settings){
     // $(document).ready(function(){
-      
+      $('#owl-carousel-' + id).owlCarousel('destroy');
       setTimeout(function(){
-        // console.log('#owl-carousel-' + id);
-        // console.log($("div").is('#owl-carousel-' + id));
+        console.log('#owl-carousel-' + id);
+        if ($("div").is('#owl-carousel-' + id)) {        
+          var owl = $('#owl-carousel-' + id).owlCarousel({
+            items: Number( settings["items"]),
+            stagePadding: Number( settings["stagePadding"]),
+            margin: Number(settings["margin"]),
+            loop: settings["loop"],
+            nav: true,
+            navText : ["",""],
+            // dotsContainer: '#carousel-custom-dots',
+            autoplay: settings["autoplay"],
+            autoplayTimeout: Number( settings["autoplayTimeout"]),
+            autoplayHoverPause:true,
 
-        $('#owl-carousel-' + id).owlCarousel({
-          items: 1,
-          // stagePadding: 80,
-          // margin: 10,
-          loop: true,
-          nav: true,
-          navText : ["",""],
-          autoplay:true,
-          autoplayTimeout:3000,
-          autoplayHoverPause:true
-        });
+            responsive:{
+              0:{
+                stagePadding: 0,
+                margin: 0,
+                items: 1,
+              },
+              800:{
+                items: (Number( settings["items"]) > 2 ) ? Number( settings["items"]) - 1 : Number( settings["items"]), 
+                stagePadding: Number(settings["stagePadding"]),
+                margin: Number( settings["margin"]),
+              },
+              1200:{
+                items: Number( settings["items"]), 
+                stagePadding: Number( settings["stagePadding"]),
+                margin: Number( settings["margin"]),
+              }
+            }
+          });
+        }
+        // $('.carousel_dot').click(function () {
+        //   owl.trigger('to.owl.carousel', [$(this).index(), 300]);
+        // });
       }, 50);
       
     // });
+
   }
 
   
@@ -162,8 +182,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
       curTemplsArr.splice($scope.curPosition, 0, $scope.templates[$index]);
       $scope.oldImg.splice($scope.curPosition, 0, []);
-      console.log("addtemple");
-      console.log($scope.oldImg);
       data = JSON.parse($scope.templates[$index]["content"]);
 
       // Добавление текста
@@ -197,9 +215,11 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
       // Инициализация слайдера
       $('.carousel').owlCarousel('destroy');
+
       for (var j = 0; j < curTemplsArr.length; j++) {
-        // console.log(j);
-        $scope.initSlider(j, $scope.style[j]);
+        if ($scope.images[j].length > 1) {
+          $scope.initSlider(j, $scope.style[j]["slider"]);
+        }
       }
       
      
@@ -214,8 +234,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       length = Object.keys($scope.curTempls).length;
       $scope.curTempls[length] = $scope.templates[$index];
       $scope.oldImg[length] = [];
-      console.log("addtemple");
-      console.log($scope.oldImg);
 
       // console.log($scope.templates[$index]["content"]);
       data = JSON.parse($scope.templates[$index]["content"]);
@@ -239,18 +257,20 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
           $scope.videos[length][key] = data["video"][key];
         }
       }
-
+      console.log($scope.templates[$index]["styles"]);
       dataStyle = JSON.parse($scope.templates[$index]["styles"]);
       $scope.style[length] = {};
       for (let key2 in dataStyle){
         $scope.style[length][key2] = dataStyle[key2];
       }
 
-      $('.carousel').owlCarousel('destroy');
       // Инициализация слайдера
+      $('.carousel').owlCarousel('destroy');
+      
       for (var j = 0; j < Object.keys($scope.curTempls).length; j++) {
-        // console.log(j);
-        $scope.initSlider(j, $scope.style[j]);
+          if ($scope.images[j].length > 1) {
+            $scope.initSlider(j, $scope.style[j]["slider"]);
+          }
       }
     }
     // console.log($scope.oldImg);
@@ -261,7 +281,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
   $scope.saveTemples = function(longreadId){
     // console.log($scope.deleteImgServer);
-    console.log($scope.oldImg);
     for (var i = 0; i < Object.keys($scope.curTempls).length; i++){
       $scope.curTempls[i]["content"] = (typeof $scope.curTempls[i]["content"] === "string") ? JSON.parse($scope.curTempls[i]["content"]):$scope.curTempls[i]["content"];
       $scope.curTempls[i]["styles"] = (typeof $scope.curTempls[i]["styles"] === "string") ? JSON.parse($scope.curTempls[i]["styles"]):$scope.curTempls[i]["styles"];
@@ -272,13 +291,10 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
       if (Object.keys($scope.images[i]).length != 0) {
         for (let j = 0; j < Object.keys($scope.images[i]).length; j++){
-          console.log($scope.images[i][j].src.includes("/storage/"));
-          console.log($scope.images[i][j].src);
-          if ($scope.images[i][j].src.includes("/storage/")) {
-            console.log(j);
-            console.log($scope.oldImg[i]);
-            $scope.oldImg[i].splice(j, 1);
-            console.log($scope.oldImg[i]);
+          // console.log($scope.oldImg[i]);
+          // console.log($scope.images[i][j].src);
+          if ($scope.images[i][j]["src"].includes("/storage/")) {
+            $scope.oldImg[i][j] = null;
           }
         }
         $scope.curTempls[i]["content"]["img"] = $scope.images[i];
@@ -298,8 +314,9 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
         $scope.curTempls[i]["content"]["video"] = {};
       }
 
-      for (key in $scope.curTempls[i]["styles"]){
+      for (key in $scope.style[i]){
         $scope.curTempls[i]["styles"][key] = $scope.style[i][key];
+
       }
     }
 
@@ -325,13 +342,13 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $scope.deleteImgServer[$index] = $scope.oldImg[$index];
     $scope.oldImg.splice($index, 1);
 
-    console.log("deete");
-    console.log($scope.oldImg);
+    
     // Инициализация слайдера
     $('.carousel').owlCarousel('destroy');
     for (var j = 0; j < curTemplsArr.length; j++) {
-      // console.log(j);
-      $scope.initSlider(j, $scope.style[j]);
+      if ($scope.images[j].length > 1){
+        $scope.initSlider(j, $scope.style[j]["slider"]);
+      }
     }
 
     data = [];
@@ -340,6 +357,14 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     }
       
     $scope.curTempls = Object.fromEntries(data);
+
+    $scope.statusContentSection = false;
+    $scope.statusStyleSection = false;
+    $scope.loadImg = false;
+    $scope.loadVid = false;
+    $scope.statusLibrary = false;
+    $scope.imagesInfo = false;
+    $scope.sliderInfo = false;
   }
 
   $scope.move = function($index, direction){
@@ -364,8 +389,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $scope.videos.splice($scope.curPosition, 0, curVideo);
     $scope.oldImg.splice($scope.curPosition, 0, curOldImg);
 
-    console.log("move");
-    console.log($scope.oldImg);
 
     curTemplsArr.splice($scope.curPosition, 0, curTempl);
     data = [];
@@ -373,8 +396,9 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     // Инициализация слайдера
     $('.carousel').owlCarousel('destroy');
     for (var j = 0; j < curTemplsArr.length; j++) {
-      // console.log(j);
-      $scope.initSlider(j, $scope.style[j]);
+      if ($scope.images[j].length > 1) {
+        $scope.initSlider(j, $scope.style[j]["slider"]);
+      }
     }
 
     for (var i = 0; i < curTemplsArr.length; i++){
@@ -403,12 +427,32 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $scope.statusLibrary = false;
     $scope.statusStyleSection = true;
     $scope.curEdittingBlock = $index;
+
+    $scope.oneImg = true;
+
+    curImgs = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
+    
+    if (curImgs["img"] != undefined && $scope.images[$scope.curEdittingBlock] != undefined){
+      if (Object.keys($scope.images[$scope.curEdittingBlock]).length > 1 || curImgs["img"].length > 1){
+        $scope.oneImg = false;
+      }
+    }
+    else {
+      $scope.oneImg = false;
+    }
     clearStyleFormItems();
     setStyleFormItems();
   }
 
   $scope.closeStyleSection = function(){
+    // $scope.initSlider($scope.curEdittingBlock, $scope.style[$scope.curEdittingBlock]["slider"]);
     $scope.statusStyleSection = false;
+    $scope.statusContentSection = false;
+    $scope.imagesInfo = false;
+    $scope.typographyShow = false;
+    $scope.sliderShow = false;
+    $scope.sliderInfo = false;
+    $scope.typographyInfo = false;
   }
 
   $scope.openContentSection = function($index){
@@ -417,7 +461,11 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $scope.statusLibrary = false;
     $scope.curEdittingBlock = $index;
     $scope.oneImg = true;
-    if (Object.keys($scope.images[$scope.curEdittingBlock]).length > 1){
+
+    curImgs = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
+    
+    
+    if (Object.keys($scope.images[$scope.curEdittingBlock]).length > 1 || curImgs["img"].length > 1){
       $scope.oneImg = false;
     }
     $scope.statusStyleSection = false;
@@ -427,6 +475,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
   $scope.closeContentSection = function(){
     $scope.statusContentSection = false;
+    $scope.statusStyleSection = false;
     $scope.loadImg = false;
     $scope.loadVid = false;
   }
@@ -437,28 +486,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
   }
 
   $scope.deleteImg = function($index){
-    // curTemplsArr = [];
-    // for (var i = 0; i < Object.keys(JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"])["img"]).length; i++){
-    //   curTemplsArr.push($scope.curTempls[i]);
-    // }
-    // console.log(curTemplsArr);
-    
-    // curTemplsArr.splice($index, 1);
-    // console.log(curTemplsArr);
-
-    // data = [];
-    // if (curTemplsArr.length != 0){
-    //   for (var i = 0; i < curTemplsArr.length; i++){
-    //     data[i] = [i, curTemplsArr[i]];
-    //   }
-        
-    //   $scope.curTempls = Object.fromEntries(data);
-    // }
-    // else {
-    //   JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"])["img"] = {};
-    // }
-
-
     curImg = [];
     for (var i = 0; i < Object.keys($scope.images[$scope.curEdittingBlock]).length; i++){
       curImg.push($scope.images[$scope.curEdittingBlock][i]);
@@ -483,25 +510,36 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $('.carousel').owlCarousel('destroy');
       
     for (var j = 0; j < Object.keys($scope.curTempls).length; j++) {
-      // console.log(j);
-      $scope.initSlider(j, $scope.style[j]);
+      if ($("div").is('#owl-carousel-' + j)) {
+        $scope.initSlider(j, $scope.style[j]["slider"]);
+      }
     }
     
   }
 
   $scope.block_width = ['50', '55', '60', '65', '70', '75', '80', '85', '90', '95', '100'];
+  $scope.block_height = ['30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85', '90', '95', '100'];
   $scope.alignment = [{"ru": 'По левому краю', "en": 'flex-start'}, {"ru": 'По центру', "en": 'center'}, {"ru": 'По правому краю', "en": 'flex-end'}];
   $scope.text_alignment = [{"ru": 'По левому краю', "en": 'left'}, {"ru": 'По центру', "en": 'center'}, {"ru": 'По правому краю', "en": 'right'}];
   $scope.font_family = ['Tahoma', 'Comic Sans MS', 'Montserrat', 'Arial', 'Microsoft Sans Serif', 'Palatino Linotype'];
   $scope.vertical_alignment = [{"ru": 'По верху', "en": 'flex-start'}, {"ru": 'По центру', "en": 'center'}, {"ru": 'По низу', "en": 'flex-end'}];
   $scope.direction = [{"ru": 'Картинка справа', "en": 'row'}, {"ru": 'Картинка слева', "en": 'row-reverse'}];
+  $scope.font_weight = ['100', '200', '300', '400', '500', '600', '700', '800', '900'];
+  $scope.text_decoration = [{"ru": 'Перечеркнутый', "en": 'line-through'}, {"ru": 'Без изменений', "en": 'none'}, {"ru": 'Над текстом', "en": 'overline'}, {"ru": 'Подчеркнутый', "en": 'underline'}];
+  $scope.font_style = [{"ru": 'Курсив', "en": 'italic'}, {"ru": 'Обычный', "en": 'normal'}];
+  $scope.shadow_blur = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+  $scope.slider_direction = ["На слайдере", "Под слайдером"];
+  $scope.slider_loop = [{"ru": 'Зациклить', "en": 'true'}, {"ru": 'Не зацикливать', "en": 'false'}];
+  $scope.slider_autoplay = [{"ru": 'Автовоспроизводить', "en": 'true'}, {"ru": 'Не автовоспроизводить', "en": 'false'}];
 
   
   $scope.templatesStyle = {'width': false, 'justify_content': false, 'align_items': false, 'height':false, 'title':false,
-                      'overhead':false, 'subtitle':false, 'main_text':false, 'text_align':false, 'direction':false};
+                      'overhead':false, 'subtitle':false, 'main_text':false, 'text_align':false, 'direction':false, 'slider': false, 'gallery': false};
 
   $scope.templatesContent = {'title': false, 'overhead': false, 'subtitle': false, 'text':false, 'img': false, 'video':false};
 
+  $scope.typographyShow = false;
+  $scope.sliderShow = false;
 
   function setStyleFormItems(){
     data = (typeof $scope.curTempls[$scope.curEdittingBlock]["styles"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["styles"]):$scope.curTempls[$scope.curEdittingBlock]["styles"];
@@ -511,6 +549,16 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
           $scope.templatesStyle[key] = true;
         }
       }
+    }
+    if ($scope.templatesStyle["overhead"] == true || $scope.templatesStyle["main_text"] == true){
+      $scope.typographyShow = true;
+    }
+    if ($scope.templatesStyle["slider"] == true){
+      $scope.sliderShow = true;
+    }
+
+    if ($scope.templatesStyle["subtitle"] == true){
+      $scope.oneImg = false;
     }
   }
 
@@ -568,7 +616,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
   $scope.getTheFiles = function($files) {
     let imagesrc = [];
-    
+
     for (var i = 0; i < $files.length; i++) {
       var reader = new FileReader();
       reader.fileName = $files[i].name; // Наименование загруженного файла
@@ -580,7 +628,9 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
         image.src = event.target.result;
         imagesrc.push(image);
 
-        if (Object.keys($scope.images[$scope.curEdittingBlock]).length != 1){
+        curImgs = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
+
+        if (Object.keys($scope.images[$scope.curEdittingBlock]).length != 1 || curImgs["img"].length != 1){
           // console.log($scope.images[$scope.curEdittingBlock]);
           let len = Object.keys($scope.images[$scope.curEdittingBlock]).length;
           $scope.images[$scope.curEdittingBlock][len] = imagesrc.shift();
@@ -601,7 +651,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       
     for (var j = 0; j < Object.keys($scope.curTempls).length; j++) {
       // console.log(j);
-      $scope.initSlider(j, $scope.style[j]);
+      $scope.initSlider(j, $scope.style[j]["slider"]);
     }
   }
 
@@ -658,33 +708,98 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     items: 2
   }
 
+  $scope.mobileInfo = false;
+  $scope.typographyInfo = false;
+  $scope.shadowMainText = false;
+  $scope.bg_color = false;
+  $scope.shadowTitle = false;
+  $scope.shadowSubtitle = false;
+  $scope.shadowOverhead = false;
+  $scope.imagesInfo = false;
+  $scope.sliderInfo = false;
+
+  $scope.showAdditionalInfo = function(param){
+    if (param == 1){
+      if ($scope.typographyInfo){
+        $scope.typographyInfo = false;
+      }
+      else{
+        $scope.typographyInfo = true;
+      }
+    }
+    else if (param == 2){
+      if ($scope.mobileInfo){
+        $scope.mobileInfo = false;
+      }
+      else{
+        $scope.mobileInfo = true;
+      }
+    }
+    else if (param == 3.1){
+      if ($scope.shadowMainText){
+        $scope.shadowMainText = false;
+      }
+      else{
+        $scope.shadowMainText = true;
+      }
+    }
+    else if (param == 3.2){
+      if ($scope.shadowSubtitle){
+        $scope.shadowSubtitle = false;
+      }
+      else{
+        $scope.shadowSubtitle = true;
+      }
+    }
+    else if (param == 3.3){
+      if ($scope.shadowOverhead){
+        $scope.shadowOverhead = false;
+      }
+      else{
+        $scope.shadowOverhead = true;
+      }
+    }
+    else if (param == 3.4){
+      if ($scope.shadowTitle){
+        $scope.shadowTitle = false;
+      }
+      else{
+        $scope.shadowTitle = true;
+      }
+    }
+    else if (param == 4){
+      if ($scope.bg_color){
+        $scope.bg_color = false;
+      }
+      else{
+        $scope.bg_color = true;
+      }
+    }
+    else if (param == 5){
+      if ($scope.imagesInfo){
+        $scope.imagesInfo = false;
+      }
+      else{
+        $scope.imagesInfo = true;
+      }
+    }
+    else if (param == 6){
+      if ($scope.sliderInfo){
+        $scope.sliderInfo = false;
+      }
+      else{
+        $scope.sliderInfo = true;
+      }
+    }
+    
+  }
+
   
 
 });
 
 
-// webEditor.animation('.slide-animation', function () {
-//   return {
-//     addClass: function (element, className, done) {
-//       if (className == 'ng-hide') {
-//         TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
-//       }
-//       else {
-//         done();
-//       }
-//     },
-//     removeClass: function (element, className, done) {
-//       if (className == 'ng-hide') {
-//         element.removeClass('ng-hide');
-//         TweenMax.set(element, { left: element.parent().width() });
-//         TweenMax.to(element, 0.5, {left: 0, onComplete: done });
-//       }
-//       else {
-//         done();
-//       }
-//     }
-//   };
-// });
+
 
 
 webEditor.config(function($provide) {

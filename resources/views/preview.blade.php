@@ -14,12 +14,11 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular-route.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-animate.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/TweenMax.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl.carousel.min.js.js') }}"></script>
 
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl.carousel.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl.theme.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-theme.css') }}">
+        <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl-carousel.min.js') }}"></script>
         
         <link rel="stylesheet" type="text/css" href="{{ asset('css/templates_css/templatesStyle.css') }}" />
         <script type="text/javascript" src="{{ asset('js/previewPageScript.js') }}"></script>

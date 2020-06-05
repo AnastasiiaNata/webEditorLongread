@@ -17,7 +17,7 @@ class LongreadController extends Controller
 
 	public function logout(){
 		Auth::logout();
-		return view('welcome');
+		return view('layouts/app');
 	}
 
 	public function publishLongread(Request $request, $id){
@@ -35,15 +35,17 @@ class LongreadController extends Controller
 		
 		else {
 			$long = Longread::where('id', '=', $id)->update(['url' => $requestData[0]]);
-			return $requestData;
+			return $long;
 		}
 	}
 
 	public function showLongread($url){
-		$long = Longread::where("url", '=', $url)->get();
+		$long = Longread::where('url', '=', $url)->get();
+
 		$longreadId = $long[0]['id'];
 		$previewStatus = 0;
 		return view('preview', compact(['longreadId', 'previewStatus']));
+		return $long;
 	}
 
 	
@@ -68,6 +70,7 @@ class LongreadController extends Controller
 		$data[0] = $longread;
 		$data[1] = $blocks;
 		$data[2] = $long[0];
+		// $data[3] = Longread::where
 		return $data;
 	}
 
@@ -81,7 +84,9 @@ class LongreadController extends Controller
 
 		for ($i = 0; $i < count($oldImg); $i++){
 			for ($j = 0; $j < count($oldImg[$i]); $j++){
-				Storage::delete($oldImg[$i][$j]);
+				if ($oldImg[$i][$j] != null){
+					Storage::delete($oldImg[$i][$j]);
+				}
 			}			
 		}
 		

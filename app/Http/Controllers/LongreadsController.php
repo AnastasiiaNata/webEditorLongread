@@ -57,45 +57,62 @@ class LongreadsController extends Controller
 		}
 
 
-
-		$d = Longread::where('id', '=', $requestData[0]["id"])->delete();
-
-		
-		// $c = $get_long["parameters"]["img"][0]["src"];
-		if (empty($get_long["parameters"]["img"][0])) {
-			$get_long["parameters"]["img"][0] = [];
-		}
-		else {
-			if (substr_count($get_long["parameters"]["img"][0]["src"], '/storage/') == 0) {
-				if (substr_count($get_long["parameters"]["img"][0]["src"], '../..') == 0) {
-					// $c = 123;
-					$cou = explode(',', explode(';', $get_long["parameters"]["img"][0]["src"])[1])[1];
-					$search = [':', '-', ' '];
-					$file = base64_decode($cou);
-
-					$path = '/public/upload/' . str_replace($search, '_', date("Y-m-d H:i:s")) . $get_long["parameters"]["img"][0]["title"];				
-					Storage::put($path, $file);
-					$get_long["parameters"]["img"][0]["src"] = $path;
-				}
-				else {
-					// $c = 1234;
-					$get_long["parameters"]["img"][0]["src"] = $get_long["parameters"]["img"][0]["src"];
-				}
-			}	
-			else {
-				$get_long["parameters"]["img"][0]["src"] = $get_long["parameters"]["img"][0]["src"];
+		$theSame = Longread::where('url', '=', $get_long["url"])->get();
+		if (count($theSame) == 1){
+			$d = Longread::where('id', '=', $requestData[0]["id"])->get();
+			if ($d[0]["url"] != $get_long["url"]) {
+				$error[0] = -1;
+				return $error;
 			}
 		}
-			
+		if (count($theSame) > 1) {
+			if (empty($requestData[0])) {
+				$error[0] = -1;
+			}
+			else {
+				$error[0] = 0;
+			}
+			return $error;
+		}
+		
+		else {
+			$d = Longread::where('id', '=', $requestData[0]["id"])->delete();
 
-		Longread::create([
-			'id' => $get_long["id"],
-			'title' => $get_long["title"],
-			'url' => $get_long["url"],
-			'user_id' => $get_long["user_id"],
-			'parameters' => json_encode($get_long["parameters"]),
-		]);
-		return $requestData;
+			if (empty($get_long["parameters"]["img"][0])) {
+				$get_long["parameters"]["img"][0] = [];
+			}
+			else {
+				if (substr_count($get_long["parameters"]["img"][0]["src"], '/storage/') == 0) {
+					if (substr_count($get_long["parameters"]["img"][0]["src"], '../..') == 0) {
+						
+						$cou = explode(',', explode(';', $get_long["parameters"]["img"][0]["src"])[1])[1];
+						$search = [':', '-', ' '];
+						$file = base64_decode($cou);
+
+						$path = '/public/upload/' . str_replace($search, '_', date("Y-m-d H:i:s")) . $get_long["parameters"]["img"][0]["title"];				
+						Storage::put($path, $file);
+						$get_long["parameters"]["img"][0]["src"] = $path;
+					}
+					else {
+						
+						$get_long["parameters"]["img"][0]["src"] = $get_long["parameters"]["img"][0]["src"];
+					}
+				}	
+				else {
+					$get_long["parameters"]["img"][0]["src"] = $get_long["parameters"]["img"][0]["src"];
+				}
+			}
+				
+
+			Longread::create([
+				'id' => $get_long["id"],
+				'title' => $get_long["title"],
+				'url' => $get_long["url"],
+				'user_id' => $get_long["user_id"],
+				'parameters' => json_encode($get_long["parameters"]),
+			]);
+			return $requestData;
+		}
 
 		
 	}
@@ -104,6 +121,27 @@ class LongreadsController extends Controller
 		$requestID = $request->all();
 		$d = BlockList::where('longread_id', '=', $requestID)->delete();
 		$c = Longread::where('id', '=', $requestID)->delete();
+	}
+
+
+
+	public function publishLongread(Request $request){
+		$requestData = $request->all();
+		$theSame = Longread::where('url', '=', $requestData[0])->get();
+		if (count($theSame) > 0) {
+			if (empty($requestData[0])) {
+				$error[0] = -1;
+			}
+			else {
+				$error[0] = 0;
+			}
+			return $error;
+		}
+		
+		else {
+			$long = Longread::where('id', '=', $requestData[1])->update(['url' => $requestData[0]]);
+			return $requestData;
+		}
 	}
 
 	

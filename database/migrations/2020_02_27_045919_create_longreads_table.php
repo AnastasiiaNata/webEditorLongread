@@ -18,7 +18,7 @@ class CreateLongreadsTable extends Migration
             $table->string('title')->default("Some kind of longread");
             $table->string('url')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->json('parameters')->nullable();
+            $table->text('parameters')->nullable();
         });
     }
 

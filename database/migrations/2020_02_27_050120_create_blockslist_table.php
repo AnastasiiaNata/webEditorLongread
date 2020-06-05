@@ -17,8 +17,8 @@ class CreateBlockslistTable extends Migration
             $table->increments('id');
             $table->integer('longread_id')->unsigned();
             $table->integer('block_id')->unsigned();
-            $table->json('content');
-            $table->json('styles');
+            $table->text('content');
+            $table->text('styles');
         });
     }
 

@@ -1,10 +1,25 @@
- <div>
-    <div class="gallery_header">
-      <h1 contentEditable ng-model="mainText[$index].title"></h1>
-      <p contentEditable ng-model="mainText[$index].text"></p>
+ <div ng-style="{'background-color': '#' + style[$index].bg_color }" ng-if="editPage">
+    <div class="gallery_header" ng-style="{'padding-top': style[curEdittingBlock].padding_top_desktop + 'px'}">
+      <h1 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color, 'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 2 + 'px', 'font-weight': style[$index].title.font_weight, 'font-style': style[$index].title.font_style, 'text-decoration': style[$index].title.text_decoration }"></h1>
+      <p contentEditable ng-model="mainText[$index].text" ng-style="{ 'color': '#' + style[$index].main_text.color,
+			'font-family': style[$index].main_text.font_family, 'font-size': (windowWidth > 770) ? style[$index].main_text.font_size + 'px' : style[$index].main_text.font_size - 2 + 'px', 'font-weight': style[$index].main_text.font_weight, 'font-style': style[$index].main_text.font_style, 'text-decoration': style[$index].main_text.text_decoration }"></p>
     </div>
 
-      <div class="gallery_column"  >
-        <img ng-src="{{ image.src }}" ng-repeat="image in images[$index]">
+      <div class="gallery_column"  ng-style="{'padding-bottom': style[$index].padding_bottom_desktop + 'px'}">
+        <div ng-repeat="image in images[$index]" ng-style="{'padding-left': style[templNum].gallery.distance_between_imgs / 2 + 'px', 'padding-right': style[templNum].gallery.distance_between_imgs / 2 + 'px'}">
+          <img ng-src="{{ image.src }}"  >
+        </div>
+      </div>
+</div>
+
+<div ng-style="{'background-color': '#ffffff' }" ng-if="!editPage">
+    <div class="gallery_header" ng-style="{'padding-top': style[curEdittingBlock].padding_top_desktop + 'px'}">
+      <h1  ng-style="{ 'color': '#' + style[$index].title.color, 'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 2 + 'px', 'font-weight': style[$index].title.font_weight, 'font-style': style[$index].title.font_style, 'text-decoration': style[$index].title.text_decoration }">{{mainText[$index].title}}</h1>
+      <p  ng-style="{ 'color': '#' + style[$index].main_text.color,
+			'font-family': style[$index].main_text.font_family, 'font-size': (windowWidth > 770) ? style[$index].main_text.font_size + 'px' : style[$index].main_text.font_size - 2 + 'px', 'font-weight': style[$index].main_text.font_weight, 'font-style': style[$index].main_text.font_style, 'text-decoration': style[$index].main_text.text_decoration }">{{mainText[$index].text}}</p>
+    </div>
+
+      <div class="gallery_column"  ng-style="{'padding-bottom': style[$index].padding_bottom_desktop + 'px'}">
+        <img ng-src="{{ image.src }}" ng-repeat="image in images[$index]" ng-style="{'padding-left': style[$index].gallery.distance_between_imgs}">
       </div>
 </div>
