@@ -35,17 +35,17 @@ class LongreadController extends Controller
 		
 		else {
 			$long = Longread::where('id', '=', $id)->update(['url' => $requestData[0]]);
-			return $long;
+			return $requestData;
 		}
 	}
 
 	public function showLongread($url){
 		$long = Longread::where('url', '=', $url)->get();
 
-		$longreadId = $long[0]['id'];
+		$longread = $long[0];
 		$previewStatus = 0;
-		return view('preview', compact(['longreadId', 'previewStatus']));
-		return $long;
+		return view('preview', compact(['longread', 'previewStatus']));
+		
 	}
 
 	
@@ -70,7 +70,6 @@ class LongreadController extends Controller
 		$data[0] = $longread;
 		$data[1] = $blocks;
 		$data[2] = $long[0];
-		// $data[3] = Longread::where
 		return $data;
 	}
 
@@ -146,9 +145,11 @@ class LongreadController extends Controller
 
 
 	public function loadPreview($id){
-		$longreadId = $id;
+		$long = Longread::where('id', '=', $id)->get();
+
+		$longread = $long[0];
 		$previewStatus = 1;
-		return view('preview', compact(['longreadId', 'previewStatus']));
+		return view('preview', compact(['longread', 'previewStatus']));
 	}
 
 }

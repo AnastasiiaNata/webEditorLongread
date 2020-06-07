@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/new_app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/icons/project.ico">
 </head>
 <body>
     <div id="app">

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
+        <title>WebCreator</title>
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <script src="{{asset('js/lib/popper.min.js')}}" type="text/javascript"></script>
         <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
@@ -21,6 +21,8 @@
         <script type="text/javascript" src="{{ asset('js/longreadsPageScript.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/longreadsPageStyle.css') }}" />
 
+        <link rel="shortcut icon" type="image/x-icon" href="/icons/project.ico">
+
     </head>
     <body ng-controller="LongreadController">
         <div class="header">
@@ -37,9 +39,9 @@
                 <div ng-repeat="curLongread in longreads track by $index" class="longread-wrapper">     
                     <div class="longread longread-hover">
                         <div class="img_block"><img src="@{{images[$index][0].src}}"></div>
-                        <div class="title"><a href="longread/@{{ curLongread.id }}" ng-click="save()">@{{curLongread.title}}</a></div>
+                        <div class="title" ng-click="save($index)"><a  href="longread/@{{ curLongread.id }}" >@{{curLongread.title}}</a></div>
                         <div class="editBTN">
-                                <div class="edit"><a href = 'longread/@{{ curLongread.id }}' ng-click="save()">РЕДАКТИРОВАТЬ</a></div>
+                                <div class="edit" ng-click="save($index)"><a href="longread/@{{ curLongread.id }}" >РЕДАКТИРОВАТЬ</a></div>
                                 <div class="img_btn">
                                     <div ng-click="openPublish($index)"><img src="{{ asset('icons/publish.svg') }}"></div>
                                     <div ng-click="openSettings($index)"><img src="{{ asset('icons/settings.svg') }}"></div>
@@ -57,7 +59,7 @@
 
 
             <div class="overlay" ng-if="statusSettings">
-                <div class="popup ng-cloak">
+                <div class="popup ng-cloak popup-settings">
                     <div class="tabs">
                         <button ng-repeat="curSet in settings track by $index" ng-click="openSet($index)">@{{ curSet.title }}</button>
                     </div>
@@ -87,7 +89,7 @@
                                         <div ng-if="loadImg" class="loadImg">
                                             <form enctype="multipart/form-data" method="post" class="inputfile">
                                                 {{ csrf_field() }}
-                                                <input type="file" id="file"  ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                <input type="file" id="file"  ng-files="getTheFiles($files, 'img')" accept=".jpg, .jpeg, .png"/>
                                                 <label for="file" class="btn-1"><span>Выбрать файл</span></label>
                                             </form> 
                                         </div>
@@ -95,13 +97,57 @@
                                             <div class="curImg">
                                                 <div class="curImg_img"><img ng-src="@{{ curImg.src }}"></div>
                                                 <div class="curImg_text"><p>@{{ curImg.title }}</p></div>
-                                                <div class="curImg_btn" ng-click="deleteImage($index)"><img src="{{ asset('icons/garbage.svg') }}"></div>
+                                                <div class="curImg_btn" ng-click="deleteImage($index, 'img')"><img src="{{ asset('icons/garbage.svg') }}"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="saveBTN" ng-click="save()">Сохранить настройки</button>
+
+                            <div class="form-group" id = "23" >
+                                <label>Favicon</label></br>
+                                <div>
+                                    <div>
+                                        <button class="loadBTN" ng-click="loadIcon()">Загрузить иконку</button>
+                                        <div ng-if="loadIc" class="loadImg">
+                                            <form enctype="multipart/form-data" method="post" class="inputfile">
+                                                {{ csrf_field() }}
+                                                <input type="file" id="file"  ng-files="getTheFiles($files, 'icon')" accept=".ico"/>
+                                                <label for="file" class="btn-1"><span>Выбрать файл</span></label>
+                                            </form> 
+                                        </div>
+                                        <div class="curImg">
+                                            <div class="curImg_icon"><img ng-src="@{{ favicons[curLong][0].src }}"></div>
+                                            <div class="curImg_text"><p>@{{ favicons[curLong][0].title }}</p></div>
+                                            <div class="curImg_btn" ng-click="deleteImage($index, 'icon')"><img src="{{ asset('icons/garbage.svg') }}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div >
+                                
+                                <button class="saveBTN" ng-click="save()"><span>Сохранить настройки</span></button>
+                                <!-- SVG-кольцо для индикации прогресса -->
+                                <!-- <svg class="progress-circle" width="70" height="70">
+                                    <path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/>
+                                </svg> -->
+
+                                <!-- знак галочки для показа при успешном завершении -->
+                                <!-- <svg class="checkmark" width="70" height="70">
+                                    <path d="m31.5,46.5l15.3,-23.2"/>
+                                    <path d="m31.5,46.5l-8.5,-7.1"/>
+                                </svg> -->
+
+                                <!-- знак крестика для показа при ошибке -->
+                                <!-- <svg class="cross" width="70" height="70">
+                                    <path d="m35,35l-9.3,-9.3"/>
+                                    <path d="m35,35l9.3,9.3"/>
+                                    <path d="m35,35l-9.3,9.3"/>
+                                    <path d="m35,35l9.3,-9.3"/>
+                                </svg> -->
+
+                            </div>
+                            
                         </div>
 
                         <div class="form_style"  ng-if="status['action']">

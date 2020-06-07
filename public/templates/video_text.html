@@ -5,7 +5,7 @@
 
 	 	</div>
 
-		<div  class="content" ng-style="{ 'text-align': style[$index].text_align, 'background-color': '#' + style[$index].bg_color, 'padding-bottom': style[$index].padding_bottom_desktop + 'px'  }">
+		<div  class="content" ng-style="{ 'text-align': style[$index].text_align, 'background-color': '#' + style[$index].bg_color, 'bottom': (windowWidth > 800) ? style[$index].padding_bottom_desktop + 'px' : style[$index].padding_bottom_mobile + 'px'  }">
 			<h1 contentEditable ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,
 				'font-family': style[$index].title.font_family, 'font-size': (windowWidth > 770) ? style[$index].title.font_size + 'px' : style[$index].title.font_size - 5 + 'px', 'font-weight': style[$index].title.font_weight, 'font-style': style[$index].title.font_style, 'text-decoration': style[$index].title.text_decoration, 'text-shadow': style[$index].title.text_shadow_x + 'px ' + style[$index].title.text_shadow_y + 'px ' + style[$index].title.text_shadow_blur + 'px ' + '#' + style[$index].title.text_shadow_color }"></h1>
 			 <p contentEditable ng-model="mainText[$index].main_text" ng-style="{ 'color': '#' + style[$index].main_text.color,
@@ -19,7 +19,7 @@
 		 	<iframe resize ng-style="{ 'width':windowWidth + 'px', 'height': windowHeight + 'px' }" ng-src="{{ getUrl(windowWidth, videos[$index][0].src) | trustUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 		</div>
-		<div  class="content" ng-style="{ 'text-align': style[$index].text_align, 'background-color': '#' + style[$index].bg_color, 'padding-bottom': style[$index].padding_bottom_desktop + 'px'}">
+		<div  class="content" ng-style="{ 'text-align': style[$index].text_align, 'background-color': '#' + style[$index].bg_color, 'bottom': (windowWidth > 800) ? style[$index].padding_bottom_desktop + 'px' : style[$index].padding_bottom_mobile + 'px'}">
 			<h1  ng-model="mainText[$index].title" ng-style="{ 'color': '#' + style[$index].title.color,
 				'font-family': style[$index].title.font_family, 'font-size': style[$index].title.font_size + 'px', 'font-weight': style[$index].title.font_weight, 'font-style': style[$index].title.font_style, 'text-decoration': style[$index].title.text_decoration, 'text-shadow': style[$index].title.text_shadow_x + 'px ' + style[$index].title.text_shadow_y + 'px ' + style[$index].title.text_shadow_blur + 'px ' + '#' + style[$index].title.text_shadow_color }">{{mainText[$index].title}}</h1>
 			 <p  ng-model="mainText[$index].main_text" ng-style="{ 'color': '#' + style[$index].main_text.color,

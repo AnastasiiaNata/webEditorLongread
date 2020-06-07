@@ -4,7 +4,7 @@ var webPreview = angular.module("webPreview", ['ngResource']);
 webPreview.factory('WebEditorRepository', ['$resource', 
   function($resource) { 
     return $resource('longread', null, {
-      load: { method: 'GET', url: '/longread/:id/preview/load', isArray: true}
+      load: { method: 'GET', url: '/longread/:id/preview/load', isArray: true},
     }); 
   }
  ]);
@@ -21,25 +21,26 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
 	$scope.videos = [];
 	$scope.editPage = false;
   $scope.statusButtom = false;
+  $scope.curlongread = {};
 
 
-	$scope.init = function(longreadId, previewStatus){
-    WebEditorRepository.load({id: longreadId}, function(response) {
+	$scope.init = function(longread, previewStatus){
+    $scope.curlongread = longread;
+    WebEditorRepository.load({id: $scope.curlongread['id']}, function(response) {
     	$scope.curTempls = response[0];
+      console.log(response);
     	if (Object.keys($scope.curTempls).length > 0) {
         	$scope.statusButtom = true;
       }
       setContent();
-      	// $scope.templates = response[1];
       console.log("Данные получены");
+      $scope.curlongread['parameters'] = JSON.parse($scope.curlongread['parameters']);
       if (previewStatus == 1){
         $scope.statusButtom = true;
       }
       else {
         $scope.statusButtom = false;
       }
-      // console.log($scope.curTempls);
-      // console.log($scope.mainText);
   	})};
 
 	function setContent(){
@@ -66,32 +67,77 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
       $scope.videos[i] = data["video"];
       $scope.images[i] = data["img"];
       dataStyle = JSON.parse($scope.curTempls[i]["styles"]);
+
       $scope.style[i] = {};
       for (let key in dataStyle){
         $scope.style[i][key] = dataStyle[key];
       }
+      $scope.initSlider(i, $scope.style[i]["slider"]);
     }
   }
 
-    $scope.currentSlide = 0;
-  
-  $scope.setCurrentSlideIndex = function(index) {
-    $scope.currentSlide = index;
-  };
-  
-  $scope.isCurrentSlideIndex = function(index) {
-    return $scope.currentSlide === index;
-  };
 
 
-  $scope.prevSlide = function($index) {
-    $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
-  };
+  $scope.initSlider = function(id, settings){
+    // $(document).ready(function(){
+      $('#owl-carousel-' + id).owlCarousel('destroy');
+      setTimeout(function(){
+        console.log($("div").is('#owl-carousel-' + id));
+        if ($("div").is('#owl-carousel-' + id)) {        
+          var owl = $('#owl-carousel-' + id).owlCarousel({
+            items: Number( settings["items"]),
+            stagePadding: Number( settings["stagePadding"]),
+            margin: Number(settings["margin"]),
+            loop: settings["loop"],
+            nav: true,
+            navText : ["",""],
+            // dotsContainer: '#carousel-custom-dots',
+            autoplay: settings["autoplay"],
+            autoplayTimeout: Number( settings["autoplayTimeout"]),
+            autoplayHoverPause:true,
 
-  $scope.nextSlide = function($index) {
-    $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
-  };
+            responsive:{
+              0:{
+                stagePadding: 0,
+                margin: 0,
+                items: 1,
+              },
+              800:{
+                items: (Number( settings["items"]) > 2 ) ? Number( settings["items"]) - 1 : Number( settings["items"]), 
+                stagePadding: Number(settings["stagePadding"]),
+                margin: Number( settings["margin"]),
+              },
+              1200:{
+                items: Number( settings["items"]), 
+                stagePadding: Number( settings["stagePadding"]),
+                margin: Number( settings["margin"]),
+              }
+            }
+          });
+        }
+        // $('.carousel_dot').click(function () {
+        //   owl.trigger('to.owl.carousel', [$(this).index(), 300]);
+        // });
+      }, 50);
+  }
 
+  $scope.owlOptionsTestimonials = {
+    autoPlay: 4000,
+    stopOnHover: true,
+    slideSpeed: 300,
+    paginationSpeed: 600,
+    items: 2
+  }
+
+
+  $scope.getUrl = function(width, src){
+    if (width < 570){
+      return src.split('watch?v=')[0] + 'embed/' + src.split('watch?v=')[1].split('&')[0] + '?loop=1&autoplay=1&rel=0';
+    }
+    else {
+      return src.split('watch?v=')[0] + 'embed/' + src.split('watch?v=')[1].split('&')[0] + '?loop=1&autoplay=1&controls=0&rel=0';
+    }
+  }
 
 
 
@@ -110,18 +156,18 @@ webPreview.directive('resize', function ($window) {
         var w = angular.element($window);
         scope.getWindowDimensions = function () {
             return {
-                'h': w.height(),
-                'w': w.width()
+                'h': $(window).height(),
+                'w': $(window).width()
             };
         };
         scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
             scope.windowHeight = newValue.h;
             scope.windowWidth = newValue.w;
 
-            scope.style = function () {
+            scope.styleWidth = function () {
                 return {
-                    'height': (newValue.h - 100) + 'px',
-                        'width': (newValue.w - 100) + 'px'
+                    'height': (newValue.h - 200),
+                    'width': (newValue.w - 200)
                 };
             };
 
@@ -133,25 +179,25 @@ webPreview.directive('resize', function ($window) {
     }
 });
 
-webPreview.animation('.slide-animation', function () {
-  return {
-    addClass: function (element, className, done) {
-      if (className == 'ng-hide') {
-        TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
-      }
-      else {
-        done();
-      }
-    },
-    removeClass: function (element, className, done) {
-      if (className == 'ng-hide') {
-        element.removeClass('ng-hide');
-        TweenMax.set(element, { left: element.parent().width() });
-        TweenMax.to(element, 0.5, {left: 0, onComplete: done });
-      }
-      else {
-        done();
-      }
-    }
-  };
-});
+// webPreview.animation('.slide-animation', function () {
+//   return {
+//     addClass: function (element, className, done) {
+//       if (className == 'ng-hide') {
+//         TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
+//       }
+//       else {
+//         done();
+//       }
+//     },
+//     removeClass: function (element, className, done) {
+//       if (className == 'ng-hide') {
+//         element.removeClass('ng-hide');
+//         TweenMax.set(element, { left: element.parent().width() });
+//         TweenMax.to(element, 0.5, {left: 0, onComplete: done });
+//       }
+//       else {
+//         done();
+//       }
+//     }
+//   };
+// });

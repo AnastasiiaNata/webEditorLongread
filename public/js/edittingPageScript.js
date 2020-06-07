@@ -78,7 +78,8 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     // $(document).ready(function(){
       $('#owl-carousel-' + id).owlCarousel('destroy');
       setTimeout(function(){
-        console.log('#owl-carousel-' + id);
+        console.log($("div").is('#owl-carousel-' + id));
+        console.log(settings);
         if ($("div").is('#owl-carousel-' + id)) {        
           var owl = $('#owl-carousel-' + id).owlCarousel({
             items: Number( settings["items"]),
@@ -135,6 +136,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
   $scope.publish = function(longreadId){
     $scope.statusPublish = true;
+    // console.log($scope.long["url"]);
     if ($scope.long["url"] == null){
         $scope.published = false;
     }
@@ -218,6 +220,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
       for (var j = 0; j < curTemplsArr.length; j++) {
         if ($scope.images[j].length > 1) {
+          console.log($scope.style[j]["slider"]);
           $scope.initSlider(j, $scope.style[j]["slider"]);
         }
       }
@@ -291,8 +294,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       }
       if (Object.keys($scope.images[i]).length != 0) {
         for (let j = 0; j < Object.keys($scope.images[i]).length; j++){
-          // console.log($scope.oldImg[i]);
-          // console.log($scope.images[i][j].src);
           if ($scope.images[i][j]["src"].includes("/storage/")) {
             $scope.oldImg[i][j] = null;
           }
@@ -304,7 +305,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
         $scope.curTempls[i]["content"]["img"] = {};
       }
       
-      // console.log($scope.videos[i]);
+
       if (Object.keys($scope.videos[i]).length != 0) {
         for (let j = 0; j < Object.keys($scope.videos[i]).length; j++){
           $scope.curTempls[i]["content"]["video"][j] = $scope.videos[i][j];
@@ -462,12 +463,18 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     $scope.curEdittingBlock = $index;
     $scope.oneImg = true;
 
-    curImgs = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
+    curContent = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
     
-    
-    if (Object.keys($scope.images[$scope.curEdittingBlock]).length > 1 || curImgs["img"].length > 1){
-      $scope.oneImg = false;
+    if (curContent["img"]){
+      if (Object.keys($scope.images[$scope.curEdittingBlock]).length > 1 || curContent["img"].length > 1){
+        $scope.oneImg = false;
+      }
     }
+    else if (curContent["video"]){
+      $scope.imagesInfo = false;
+      $scope.loadImg = false;
+    }
+    
     $scope.statusStyleSection = false;
     clearContentFormItems();
     setContentFormItems();
@@ -673,32 +680,32 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
   
 
-  $scope.currentSlide = 0;
+  // $scope.currentSlide = 0;
   
-  $scope.setCurrentSlideIndex = function(index) {
-    $scope.currentSlide = index;
-  };
+  // $scope.setCurrentSlideIndex = function(index) {
+  //   $scope.currentSlide = index;
+  // };
   
-  $scope.isCurrentSlideIndex = function(index) {
-    return $scope.currentSlide === index;
-  };
+  // $scope.isCurrentSlideIndex = function(index) {
+  //   return $scope.currentSlide === index;
+  // };
 
 
-  $scope.prevSlide = function($index) {
-    // console.log("prev");
-    // console.log($scope.currentSlide);
-    $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
-    // console.log($scope.currentSlide);
-    // console.log(Object.keys($scope.images[$index]));
-  };
+  // $scope.prevSlide = function($index) {
+  //   // console.log("prev");
+  //   // console.log($scope.currentSlide);
+  //   $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
+  //   // console.log($scope.currentSlide);
+  //   // console.log(Object.keys($scope.images[$index]));
+  // };
 
-  $scope.nextSlide = function($index) {
-    // console.log("next");
-    // console.log($scope.currentSlide);
-    $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
-    // console.log($scope.currentSlide);
-    // console.log(Object.keys($scope.images[$index]).length);
-  };
+  // $scope.nextSlide = function($index) {
+  //   // console.log("next");
+  //   // console.log($scope.currentSlide);
+  //   $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
+  //   // console.log($scope.currentSlide);
+  //   // console.log(Object.keys($scope.images[$index]).length);
+  // };
 
   $scope.owlOptionsTestimonials = {
     autoPlay: 4000,

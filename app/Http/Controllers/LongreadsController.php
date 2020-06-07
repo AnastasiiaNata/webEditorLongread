@@ -43,7 +43,6 @@ class LongreadsController extends Controller
 		$deleteImg = $requestData[2];
 
 		for ($i = 0; $i < count($oldImg); $i++){
-			$c = 23;
 			for ($j = 0; $j < count($oldImg[$i]); $j++){
 				Storage::delete($oldImg[$i][$j]);
 			}			
@@ -102,6 +101,28 @@ class LongreadsController extends Controller
 					$get_long["parameters"]["img"][0]["src"] = $get_long["parameters"]["img"][0]["src"];
 				}
 			}
+
+
+			if (substr_count($get_long["parameters"]["favicon"][0]["src"], '/storage/') == 0) {
+					if (substr_count($get_long["parameters"]["favicon"][0]["src"], '../..') == 0) {
+						if (substr_count($get_long["parameters"]["favicon"][0]["src"], '/icons/') == 0) {
+						
+							$cou = explode(',', explode(';', $get_long["parameters"]["favicon"][0]["src"])[1])[1];
+							$search = [':', '-', ' '];
+							$file = base64_decode($cou);
+
+							$path = '/public/upload/' . str_replace($search, '_', date("Y-m-d H:i:s")) . $get_long["parameters"]["favicon"][0]["title"];				
+							Storage::put($path, $file);
+							$get_long["parameters"]["favicon"][0]["src"] = $path;
+						}
+					}
+					else {
+						$get_long["parameters"]["favicon"][0]["src"] = $get_long["parameters"]["favicon"][0]["src"];
+					}
+				}	
+				else {
+					$get_long["parameters"]["favicon"][0]["src"] = $get_long["parameters"]["favicon"][0]["src"];
+				}
 				
 
 			Longread::create([

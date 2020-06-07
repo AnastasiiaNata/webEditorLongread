@@ -75,6 +75,12 @@ body {
   background-color: #f8fafc;
 }
 
+input:focus, input:active, button:focus, button:active {
+  outline: none !important;
+  outline-offset: 0 !important;
+  border:none;
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }

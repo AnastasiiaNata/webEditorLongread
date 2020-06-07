@@ -3,6 +3,10 @@ body {
 	margin: 0;
 }
 
+button:active, button:focus {
+	outline: none !important;
+}
+
 .editSection {
 	position: relative;
 	margin-top: 8vh;

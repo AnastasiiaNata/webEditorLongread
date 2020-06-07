@@ -6,12 +6,21 @@ body {
 	height: 100vh;
 	background-size: cover;
 	background-position: center;
+	outline: none;
 }
 
 main {
 	margin-top: 40px;
 	padding-top: 0 !important;
 }
+
+input:focus, input:active, button:focus, button:active {
+	outline: 0;
+	outline-offset: 0 !important;
+	border:none;
+}
+
+input:focus {outline: 0 none;} 
 
 .py-4 {
 	padding-top: 0 !important;
@@ -76,13 +85,13 @@ main {
 	align-self: center;
 	text-align: left !important;
 	max-width: 75% !important;
-	z-index: 99;
 	padding-bottom: 0;
-	top: 24px;
 	/*bottom: -24px;*/
 	/*transform: translateY(24px);*/
 	pointer-events:none;
-	transition: 0.2s ease all;
+	transform: translateY(-32px);
+	/*transform(translateY(-18px))*/
+	/*transition: 0.2s ease all;*/
 	
 }
 
@@ -128,8 +137,8 @@ main {
 	outline: none !important;
 }
 
-.form-group-input input:focus  .form-group label {
-  top: -24px;
+.form-group-input input:focus + .form-group label {
+  transform: translateY(-48px);
   font-size: 14px;
   color: #5264AE;
 }

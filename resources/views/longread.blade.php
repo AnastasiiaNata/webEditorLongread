@@ -3,14 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@{{ long['title'] }}</title>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-        <!-- <script src="{{asset('js/lib/popper.min.js')}}" type="text/javascript"></script> -->
-        <!-- <script type="text/javascript" src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/jasny-bootstrap.min.js') }}"></script> -->
-
         
-        <link rel="shortcut icon" type="image/x-icon" href="@{{ long['parameters']['favicon'] }}">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        
 
         <script type="text/javascript" src="{{ asset('js/lib/angular.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/angular-resource.min.js') }}"></script>
@@ -19,21 +14,10 @@
         <script type="text/javascript" src="{{ asset('js/lib/angular-animate.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/lib/TweenMax.min.js') }}"></script>
 
-
-        
-        
-
-        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/jasny-bootstrap.min.css') }}"> -->
         
         <script type="text/javascript" src="{{ asset('js/edittingPageScript.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/edittingPageStyle.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/templates_css/templatesStyle.css') }}" />
-
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-carousel.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-theme.css') }}">
-        <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl-carousel.min.js') }}"></script>
 
         <link rel="stylesheet" href="{{ asset('js/angularjs-color-picker/dist/angularjs-color-picker.min.css') }}" />
         <script src="{{ asset('js/tinycolor2/dist/tinycolor-min.js') }}"></script>
@@ -42,14 +26,22 @@
         <link rel="stylesheet" href="{{ asset('js/angular-video-background/dist/angular-video-background.min.css') }}" />
         <script src="{{ asset('js/angular-video-background/dist/angular-video-background.min.js') }}"></script>
 
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/animate.css/animate.css') }}">
 
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/owlcarousel/owl-theme.css') }}">
+        <script src="{{asset('js/lib/jquery-3.4.0.min.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/owlcarousel/owl-carousel.min.js') }}"></script>
+
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/lib/animate.css/animate.css') }}">
+        <title>@{{ long['title'] }}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="@{{ long['parameters']['favicon'][0]['src'] }}">
 
     </head>
     <body >
         <div class="header">
             <div class="leftBTN">
-                <div><a href="/longread">Мои лонгриды</a></div>
+                <div><a href="/longread">Мои лонгриды </a></div>
             </div>
             <div class="burger" ng-click="openBurger()"><img src="{{ asset('icons/menu.svg') }}"></div>
             <div class="buttons" ng-class="active_buttons">
@@ -84,7 +76,7 @@
                             <input id="n" name="title_longread" placeholder="titleLongread" ng-model="settingsLongread.url">
                         </div>
                         <button ng-if="!showLongread" class="publishBTN" ng-click="publishLongread({{$longreadId}})">Опуликовать</button>
-                        <a href="/view/@{{settingsLongread.url}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a>
+                        <div ng-click="saveTemples({{$longreadId}})"><a href="/view/@{{settingsLongread.url}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a></div>
                     </div>
 
                     <div class="form_style" ng-if="published"> 
@@ -93,7 +85,7 @@
                         <div class="form-group2">
                             <label for="n">@{{documentLocation}}/@{{long["url"]}}</label>
                         </div>
-                        <a href="/view/@{{long['url']}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a>
+                        <div ng-click="saveTemples({{$longreadId}})"><a href="/view/@{{long['url']}}" target="_blank" class="publishBTN" ng-if="showLongread">Показать лонгрид</a></div>
                     </div>
                 </div>
             </div>
@@ -589,11 +581,11 @@
                                 </div>
                             </div>
                             <div class="form-group" id = "23" ng-if="templatesContent['video']">
-                                <label>Видео</label></br>
+                                <label>Ссылка на YouTube ролик</label></br>
                                 <div>
                                     <div>
                                         <div class="URLvideo">
-                                            <label>Ссылка на YouTube ролик</label></br>
+                                            
                                             <input type="text" name="" ng-model="videos[curEdittingBlock][0].src" ng-style="{'width': '90%'}">
                                         </div>
                                             <div class="curImgs">

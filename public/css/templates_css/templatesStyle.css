@@ -207,6 +207,7 @@ p {
 	background: rgba(0, 35, 54, 0.9);
 	color: #f1f1f1;
 	padding: 10px 50px;
+	padding-bottom: 24px;
 }
 
 .video_block {

@@ -1,3 +1,9 @@
+body {
+	font-family: 'Montserrat', sans-serif;
+	margin: 0;
+}
+
+
 .overlay {
 	z-index: 9999;
 	position: fixed;
@@ -11,7 +17,7 @@
 }
 
 .returnBTN {
-	height: 6vh;
+	height: 28px;
 	border: none;
 	background: radial-gradient(112.5% 2678.91% at 86.42% 23.96%, #139BE8 0%, #11F0E3 100%);
 	color: #fff;
@@ -22,6 +28,9 @@
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-decoration: none;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .returnBTN img {
