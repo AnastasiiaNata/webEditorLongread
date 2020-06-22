@@ -219,6 +219,11 @@ button:focus {
 	padding-right: 24px;
 }
 
+.library button:hover {
+	background-color: #26668A;
+	cursor: pointer;
+}
+
 .wrapper {
 
 	/*position: relative;*/
@@ -288,6 +293,14 @@ button:focus {
 	width: auto;
 	height: auto;
 	cursor: pointer;
+	transition: all 200ms;
+  	color: #333;
+  	opacity: 0.7;
+}
+
+.menu-btn:hover {
+  	color: #06D85F;
+  	opacity: 0.9;
 }
 
 .menu-list:hover {
@@ -359,6 +372,16 @@ button:focus {
 	display: flex;
 	justify-content: center;
 	position:relative;
+	opacity: 0.7;
+}
+
+.editStyle:hover, .editContent:hover {
+	background-color: #3A6DBA;
+}
+
+
+.moreOption:hover {
+	opacity: 0.9;
 }
 
 .moreOption img {
@@ -687,16 +710,18 @@ button:focus {
 }
 
 
-.popup .close {
+.close {
 	position: absolute;
   	top: 10px;
   	right: 30px;
   	transition: all 200ms;
   	color: #333;
   	cursor: pointer;
+  	opacity: 0.7;
 }
-.popup .close:hover {
+.close:hover {
   	color: #06D85F;
+  	opacity: 0.9;
 }
 
 
@@ -710,6 +735,7 @@ button:focus {
 	padding-top: 10px;
 	padding-left: 20px;
 	padding-right: 20px;
+	text-decoration: none;
 }
 
 .publishBTN:hover {

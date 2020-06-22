@@ -28,12 +28,12 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
     $scope.curlongread = longread;
     WebEditorRepository.load({id: $scope.curlongread['id']}, function(response) {
     	$scope.curTempls = response[0];
-      console.log(response);
+      // console.log(response);
     	if (Object.keys($scope.curTempls).length > 0) {
         	$scope.statusButtom = true;
       }
       setContent();
-      console.log("Данные получены");
+      // console.log("Данные получены");
       $scope.curlongread['parameters'] = JSON.parse($scope.curlongread['parameters']);
       if (previewStatus == 1){
         $scope.statusButtom = true;
@@ -44,6 +44,7 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
   	})};
 
 	function setContent(){
+    $('.carousel').owlCarousel('destroy');
     for (var i = 0; i < Object.keys($scope.curTempls).length; i++) {
       data = JSON.parse($scope.curTempls[i]["content"]);
       $scope.mainText[i] = {};
@@ -82,7 +83,7 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
     // $(document).ready(function(){
       $('#owl-carousel-' + id).owlCarousel('destroy');
       setTimeout(function(){
-        console.log($("div").is('#owl-carousel-' + id));
+        // console.log($("div").is('#owl-carousel-' + id));
         if ($("div").is('#owl-carousel-' + id)) {        
           var owl = $('#owl-carousel-' + id).owlCarousel({
             items: Number( settings["items"]),
@@ -118,7 +119,7 @@ webPreview.controller("PreviewController", function($scope, $document, WebEditor
         // $('.carousel_dot').click(function () {
         //   owl.trigger('to.owl.carousel', [$(this).index(), 300]);
         // });
-      }, 50);
+      }, 150);
   }
 
   $scope.owlOptionsTestimonials = {

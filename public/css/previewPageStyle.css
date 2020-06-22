@@ -19,7 +19,9 @@ body {
 .returnBTN {
 	height: 28px;
 	border: none;
-	background: radial-gradient(112.5% 2678.91% at 86.42% 23.96%, #139BE8 0%, #11F0E3 100%);
+	position: relative;
+	z-index: 1;
+	background-image: linear-gradient(to right, #11F0E3, #139BE8);
 	color: #fff;
 	font-weight: 600;
 	font-size: 18px;
@@ -37,7 +39,19 @@ body {
 	margin-right: 16px;
 }
 
-.returnBTN:hover {
-	text-decoration: none;
-	color: #fff;
+.returnBTN::before {
+  	position: absolute;
+  	content: "";
+  	top: 0;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	background-image: linear-gradient(to right, #139BE8, #11F0E3);
+  	z-index: -1;
+  	transition: opacity 0.5s linear;
+  	opacity: 0;
+}
+
+.returnBTN:hover::before {
+  	opacity: 1;
 }

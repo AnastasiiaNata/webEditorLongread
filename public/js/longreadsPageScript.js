@@ -29,7 +29,7 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
       $scope.longreads = response;
       setContent();
       console.log("Данные получены");
-      console.log($scope.longreads);
+      // console.log($scope.longreads);
     });
   }
 
@@ -89,8 +89,8 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
   }
 
   $scope.deleteImage = function(index, type){
-    console.log($scope.deleteImg);
-    console.log($scope.longreads[$scope.curLong]);
+    // console.log($scope.deleteImg);
+    // console.log($scope.longreads[$scope.curLong]);
     if (type == 'img') {
       $scope.deleteImg[$scope.curLong].push($scope.images[$scope.curLong][0]);
       $scope.images[$scope.curLong] = {};
@@ -99,7 +99,7 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
     else {
       $scope.deleteImg[$scope.curLong].push($scope.favicons[$scope.curLong][0]);
       $scope.favicons[$scope.curLong][0] = {};
-      console.log($scope.longreads[$scope.curLong]);
+      // console.log($scope.longreads[$scope.curLong]);
       // $scope.longreads[$scope.curLong]["parameters"]["favicon"] = {};
     }
   }
@@ -195,8 +195,8 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
     else {
       posLong = $scope.curLong;
     }
-    console.log(id_longread);
-    console.log($scope.longreads[posLong]);
+    // console.log(id_longread);
+    // console.log($scope.longreads[posLong]);
     $scope.longreads[posLong]["parameters"] = (typeof $scope.longreads[posLong]["parameters"] === "string") ? JSON.parse($scope.longreads[posLong]["parameters"]) : $scope.longreads[posLong]["parameters"];
     
     
@@ -223,12 +223,9 @@ webLongread.controller("LongreadController", function($scope, $document, WebLong
     }
     $scope.postData = [$scope.longreads[posLong], $scope.oldImg, $scope.deleteImg];
     console.log($scope.postData);
-    time = new Date().getSeconds();
-    console.log(time);
+  
     WebLongreadRepository.save($scope.postData, function(response) {
       
-      time2 = new Date().getSeconds();
-      console.log(time2);
       console.log(response);
       if (response[0] == 0){
         if ($scope.statusChangeURL) {
@@ -337,7 +334,13 @@ webLongread.filter("trustUrl", function($sce) {
 });
 
 
+var authLongread = angular.module("authLongread", []);
 
-
+authLongread.controller("AuthController", function($scope){
 
   
+
+
+
+
+  });

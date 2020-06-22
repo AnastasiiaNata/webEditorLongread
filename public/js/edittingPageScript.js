@@ -38,11 +38,12 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
       $scope.templates = response[1];
       $scope.long = response[2];
       $scope.long['parameters'] = JSON.parse($scope.long['parameters']);
-      console.log($scope.long);
+      console.log($scope.curTempls);
       console.log("Данные получены");
   })};
 
   function setContent(){
+    $('.carousel').owlCarousel('destroy');
     for (var i = 0; i < Object.keys($scope.curTempls).length; i++) {
       data = JSON.parse($scope.curTempls[i]["content"]);
       $scope.mainText[i] = {};
@@ -74,21 +75,23 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
     }
   }
 
+
+
   $scope.initSlider = function(id, settings){
-    // $(document).ready(function(){
+      $scope.owl = $('#owl-carousel-' + id);
       $('#owl-carousel-' + id).owlCarousel('destroy');
+
       setTimeout(function(){
-        console.log($("div").is('#owl-carousel-' + id));
-        console.log(settings);
+        console.log($("div").is('#owl-carousel-' +id) );
+
         if ($("div").is('#owl-carousel-' + id)) {        
-          var owl = $('#owl-carousel-' + id).owlCarousel({
+          $scope.owl = $('#owl-carousel-' + id).owlCarousel({
             items: Number( settings["items"]),
             stagePadding: Number( settings["stagePadding"]),
             margin: Number(settings["margin"]),
             loop: settings["loop"],
             nav: true,
             navText : ["",""],
-            // dotsContainer: '#carousel-custom-dots',
             autoplay: settings["autoplay"],
             autoplayTimeout: Number( settings["autoplayTimeout"]),
             autoplayHoverPause:true,
@@ -112,13 +115,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
             }
           });
         }
-        // $('.carousel_dot').click(function () {
-        //   owl.trigger('to.owl.carousel', [$(this).index(), 300]);
-        // });
-      }, 50);
-      
-    // });
-
+      }, 150);
   }
 
   
@@ -220,7 +217,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
 
       for (var j = 0; j < curTemplsArr.length; j++) {
         if ($scope.images[j].length > 1) {
-          console.log($scope.style[j]["slider"]);
           $scope.initSlider(j, $scope.style[j]["slider"]);
         }
       }
@@ -260,7 +256,7 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
           $scope.videos[length][key] = data["video"][key];
         }
       }
-      console.log($scope.templates[$index]["styles"]);
+      // console.log($scope.templates[$index]["styles"]);
       dataStyle = JSON.parse($scope.templates[$index]["styles"]);
       $scope.style[length] = {};
       for (let key2 in dataStyle){
@@ -638,7 +634,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
         curImgs = (typeof $scope.curTempls[$scope.curEdittingBlock]["content"] === "string") ? JSON.parse($scope.curTempls[$scope.curEdittingBlock]["content"]):$scope.curTempls[$scope.curEdittingBlock]["content"];
 
         if (Object.keys($scope.images[$scope.curEdittingBlock]).length != 1 || curImgs["img"].length != 1){
-          // console.log($scope.images[$scope.curEdittingBlock]);
           let len = Object.keys($scope.images[$scope.curEdittingBlock]).length;
           $scope.images[$scope.curEdittingBlock][len] = imagesrc.shift();
         }
@@ -675,37 +670,6 @@ webEditor.controller("TemplController", function($window, $scope, $document, Web
   }
 
 
-
-
-
-  
-
-  // $scope.currentSlide = 0;
-  
-  // $scope.setCurrentSlideIndex = function(index) {
-  //   $scope.currentSlide = index;
-  // };
-  
-  // $scope.isCurrentSlideIndex = function(index) {
-  //   return $scope.currentSlide === index;
-  // };
-
-
-  // $scope.prevSlide = function($index) {
-  //   // console.log("prev");
-  //   // console.log($scope.currentSlide);
-  //   $scope.currentSlide = ($scope.currentSlide > 0) ? --$scope.currentSlide : Object.keys($scope.images[$index]).length - 1;
-  //   // console.log($scope.currentSlide);
-  //   // console.log(Object.keys($scope.images[$index]));
-  // };
-
-  // $scope.nextSlide = function($index) {
-  //   // console.log("next");
-  //   // console.log($scope.currentSlide);
-  //   $scope.currentSlide = ($scope.currentSlide < Object.keys($scope.images[$index]).length - 1) ? ++$scope.currentSlide : 0;
-  //   // console.log($scope.currentSlide);
-  //   // console.log(Object.keys($scope.images[$index]).length);
-  // };
 
   $scope.owlOptionsTestimonials = {
     autoPlay: 4000,

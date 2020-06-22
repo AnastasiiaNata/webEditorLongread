@@ -39,7 +39,7 @@
                 <div ng-repeat="curLongread in longreads track by $index" class="longread-wrapper">     
                     <div class="longread longread-hover">
                         <div class="img_block"><img src="@{{images[$index][0].src}}"></div>
-                        <div class="title" ng-click="save($index)"><a  href="longread/@{{ curLongread.id }}" >@{{curLongread.title}}</a></div>
+                        <div class="title" ng-click="save($index)"><a href="longread/@{{ curLongread.id }}" >@{{curLongread.title}}</a></div>
                         <div class="editBTN">
                                 <div class="edit" ng-click="save($index)"><a href="longread/@{{ curLongread.id }}" >РЕДАКТИРОВАТЬ</a></div>
                                 <div class="img_btn">

@@ -56,7 +56,7 @@
             <div class="menu menu-library" ng-class = "{menu_active: statusLibrary}">
                 <div class="menu-header menu-header-library">
                     <div class="menu-header-title"><h5>Библиотека шаблонов</h5></div>
-                    <div class="menu-btn" ng-click="closeLibrary()"><img src="{{ asset('icons/close.svg') }}"></div>
+                    <div class="menu-btn"  ng-click="closeLibrary()"><img src="{{ asset('icons/close.svg') }}"></div>
                 </div>
                 <div class="menu-list" ng-repeat="template in templates">
                     <div ng-click="addTemple($index)" templId=$index><h6>@{{template.title}}</h6></div>
@@ -559,17 +559,15 @@
                                 <label>Изображение</label></br>
                                 <div>
                                     <div>
-                                        <!-- <div ng-if="isOneImage"> -->
-                                            <button class="loadBTN" ng-click="loadImage()">Загрузить изображение</button>
-                                            <div ng-if="loadImg" class="loadImg">
-                                                <form enctype="multipart/form-data" method="post" class="inputfile">
-                                                    {{ csrf_field() }}
-                                                    <input ng-if="oneImg" type="file" id="file" ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
-                                                    <input ng-if="!oneImg" type="file" id="file" multiple ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
-                                                    <label for="file" class="btn-1"><span>Выбрать файл</span></label>
-                                                </form> 
-                                            </div>
-                                        <!-- </div> -->
+                                        <button class="loadBTN" ng-click="loadImage()">Загрузить изображение</button>
+                                        <div ng-if="loadImg" class="loadImg">
+                                            <form enctype="multipart/form-data" method="post" class="inputfile">
+                                                {{ csrf_field() }}
+                                                <input ng-if="oneImg" type="file" id="file" ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                <input ng-if="!oneImg" type="file" id="file" multiple ng-files="getTheFiles($files)" accept=".jpg, .jpeg, .png"/>
+                                                <label for="file" class="btn-1"><span>Выбрать файл</span></label>
+                                            </form> 
+                                        </div>
                                         <div ng-repeat="curImg in images[curEdittingBlock] track by $index" class="curImgs">
                                             <div class="curImg">
                                                 <div class="curImg_img"><img ng-src="@{{ curImg.src  }}"></div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" ng-app="authLongread">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,8 +21,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/new_app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="/icons/project.ico">
+    <script type="text/javascript" src="{{ asset('js/lib/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/longreadsPageScript.js') }}"></script>
 </head>
-<body>
+<body ng-controller="AuthController">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm new_nav">
             <div class="container">

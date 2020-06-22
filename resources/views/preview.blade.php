@@ -32,7 +32,9 @@
 	<div ng-repeat="curTempl in curTempls track by $index">
                 <div ng-include="curTempl.fileName"></div>	
 	</div>
-        <div ng-if="statusButtom" class="overlay"><a href="../@{{curlongread['id']}}" class="returnBTN" ng-click="returnEdit()"><img src="{{ asset('icons/return.svg') }}">К РЕДАКТИРОВАНИЮ</a></div>
+        <div ng-if="statusButtom" class="overlay">
+                <div><a href="../@{{curlongread['id']}}" class="returnBTN" ng-click="returnEdit()"><img src="{{ asset('icons/return.svg') }}">К РЕДАКТИРОВАНИЮ</a></div>
+        </div>
 
 </body>
 </html>
